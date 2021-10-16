@@ -48,7 +48,7 @@ public class Buttons : Button
         bool success = false;
         if (condition1 || condition2)
         {
-            type = 4;
+          //  type = 4;
             person.Move(x, y);//人物移动到新地址
          //   BackgroundImage = Image.FromFile(pictures.ground); ;
             success = true;
