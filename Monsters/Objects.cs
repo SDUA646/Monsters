@@ -36,6 +36,12 @@ public class Person
     {
 
     }
+
+    public void getView()
+    {
+       
+        
+    }
 }
 
 public class Monster
