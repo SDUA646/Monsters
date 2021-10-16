@@ -68,7 +68,7 @@ public class Buttons : Button
             switch(type)
             {
                 case 2: 
-                    BackgroundImage = Image.FromFile(pictures.person);
+                    BackgroundImage = Image.FromFile(pictures.hearts);
                     break;
                 case 3:
                     BackgroundImage = Image.FromFile(pictures.monsters);
