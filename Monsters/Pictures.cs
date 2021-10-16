@@ -18,4 +18,6 @@ public class Pictures
     public string hearts = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\hearts.bmp";
     //地雷图片位置
     public string person = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\dianji.jpg";
+    //空的图片
+    public string ground = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\土地.png";
 }

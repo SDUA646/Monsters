@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
@@ -8,6 +9,7 @@ public class Buttons : Button
 {
     private int x;
     private int y;
+    private Pictures pictures = new Pictures();
     //记录该个控件下的object，0为空，1为人
     //2为心，3为怪
     private int type;
@@ -46,9 +48,9 @@ public class Buttons : Button
         bool success = false;
         if (condition1 || condition2)
         {
-            type = 0;
+          //  type = 4;
             person.Move(x, y);//人物移动到新地址
-            BackgroundImage = null;
+         //   BackgroundImage = Image.FromFile(pictures.ground); ;
             success = true;
         }
         return success;
@@ -57,5 +59,24 @@ public class Buttons : Button
     public void MoveMonsters(ref int x, ref int y, Person person)
     {
 
+    }
+
+    public void showImage()
+    {
+        if(Tag.Equals(1))
+        {
+            switch(type)
+            {
+                case 2: 
+                    BackgroundImage = Image.FromFile(pictures.hearts);
+                    break;
+                case 3:
+                    BackgroundImage = Image.FromFile(pictures.monsters);
+                    break;
+                case 4:
+                    BackgroundImage = Image.FromFile(pictures.ground);
+                    break;
+            }
+        }
     }
 }

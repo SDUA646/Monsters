@@ -29,16 +29,16 @@ namespace Monsters
         //游戏是否结束
         private bool over = false;
         //生成的行数
-        private int row = 20;
+        static  int row = 40;
         //生成的列数
-        private int column = 20;
+       static int column = 40;
         //游戏过程中剩余怪的数量
         private int remainingmonsters;
         //人物是否正在移动，0为不移动，1为移动
         bool personmoving = false;
 
         //生成个按钮数组
-        private Buttons[,] button = new Buttons[20, 20];
+        private Buttons[,] button = new Buttons[row, column];
         private Pictures pictures = new Pictures();
         private Person person = new Person();
 
@@ -63,7 +63,7 @@ namespace Monsters
             totaltime++;
             personmoving = false;
         }
-
+        //生成地图
         private void groundField()
         {
             for (int i = 0; i < column; i++)
@@ -96,38 +96,75 @@ namespace Monsters
             {
                 //按下鼠标左键
                 case MouseButtons.Left:
-                    for (int i = 0; i < row; i++)
-                    {
-                        for (int j = 0; j < column; j++)
-                            if (button[i, j].Type == 1)
-                            {
-                                button[i, j].BackgroundImage = Image.FromFile(pictures.person);
-                            }
-                            else if (button[i, j].Type == 2)
-                            {
-                                button[i, j].BackgroundImage = Image.FromFile(pictures.hearts);
-                            }
-                            else if (button[i, j].Type == 3)
-                            {
-                                button[i, j].BackgroundImage = Image.FromFile(pictures.monsters);
-                            }
-                    }
-                    if(! personmoving)
+                    button[0, 0].BackgroundImage = Image.FromFile(pictures.person);
+                   
+                    //for (int i = 0; i < row; i++)
+                    //{
+                    //    for (int j = 0; j < column; j++)
+                    //        if (button[i, j].Type == 1)
+                    //        {
+                    //          button[i, j].BackgroundImage = Image.FromFile(pictures.person);
+                    //        }
+                    //        else if (button[i, j].Type == 2)
+                    //        {
+                    //            button[i, j].BackgroundImage = Image.FromFile(pictures.hearts);
+                    //        }
+                    //        else if (button[i, j].Type == 3)
+                    //        {
+                    //            button[i, j].BackgroundImage = Image.FromFile(pictures.monsters);
+                    //        }
+                    //        else if (button[i, j].Type == 4)
+                    //        {
+                    //            button[i, j].BackgroundImage = Image.FromFile(pictures.ground);
+                    //        }
+                    //}
+                    if (! personmoving)
                     {
                         if(b.MovePerson(b.X, b.Y, person))
                         {
+                            button[person.X ,person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+                           
+                            b.Tag = 1;
+                            getView(b.X,b.Y);
                             b.BackgroundImage = Image.FromFile(pictures.person);
                             personmoving = true;
                         }
                     }
+                    
                     break;
             }
         }
+        
+        //开视野
+        private void getView(int x,int y)
+        {
+            getImage(x - 1, y - 1);
+            getImage(x - 1, y);
+            getImage(x - 1, y + 1);
+            getImage(x , y - 1);
+            getImage(x , y + 1);
+            getImage(x + 1, y - 1);
+            getImage(x + 1, y);
+            getImage(x + 1, y + 1);
+          
 
+        }
+
+        private void getImage(int x,int y)
+        {          
+            if(x >= 0 && y >= 0 && x <= row && y <= column)
+            {
+                button[x, y].Tag = 1;
+                button[x, y].showImage();
+
+            }
+            
+        }
         private void setObjects()
         {
             button[0, 0].Type = 1;
             Random rand = new Random();
+            //布心
             for (int i = 0; i < totalhearts; i++)
             {
 
@@ -140,6 +177,7 @@ namespace Monsters
                 else
                     i = i - 1;
             }
+            //布雷
             for (int i = 0; i < totalmonsters; i++)
             {
 
@@ -151,6 +189,17 @@ namespace Monsters
                 }
                 else
                     i = i - 1;
+            }
+
+            for(int i = 0;i < row; i++)
+            {
+                for(int j = 0; j < column; j++)
+                {
+                    if(button[i,j].Type == 0)
+                    {
+                        button[i, j].Type = 4;
+                    }
+                }
             }
         }
     }
