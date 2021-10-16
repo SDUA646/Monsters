@@ -72,6 +72,7 @@ namespace Monsters
                     button[j, i].Y = i;
                     button[j, i].Type = 0;
                     button[j, i].Font = new System.Drawing.Font("宋体", button[j, i].Font.Size, button[j, i].Font.Style);
+                    button[j, i].FlatStyle = FlatStyle.Flat;
 
                     groupBox1.Controls.Add(button[j, i]);
                     button[j, i].MouseUp += new MouseEventHandler(bt_MouseUp);
