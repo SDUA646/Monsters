@@ -34,10 +34,13 @@ namespace Monsters
         private int column = 20;
         //游戏过程中剩余怪的数量
         private int remainingmonsters;
+        //人物是否正在移动，0为不移动，1为移动
+        bool personmoving = false;
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[20, 20];
-        private Pictures pictures = new Pictures(); 
+        private Pictures pictures = new Pictures();
+        private Person person = new Person();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -48,7 +51,7 @@ namespace Monsters
             groupBox1.FlatStyle = FlatStyle.Standard;
             this.Location = new Point(20, 20);
             timer.Enabled = true;
-            mineField();
+            groundField();
             setObjects();
             this.StartPosition = FormStartPosition.Manual;
             timer.Tick += new EventHandler(timer_Tick);
@@ -58,9 +61,10 @@ namespace Monsters
         private void timer_Tick(object sender, EventArgs e)
         {
             totaltime++;
+            personmoving = false;
         }
 
-        private void mineField()
+        private void groundField()
         {
             for (int i = 0; i < column; i++)
             {
@@ -107,10 +111,16 @@ namespace Monsters
                             {
                                 button[i, j].BackgroundImage = Image.FromFile(pictures.monsters);
                             }
-
+                    }
+                    if(! personmoving)
+                    {
+                        if(b.MovePerson(b.X, b.Y, person))
+                        {
+                            b.BackgroundImage = Image.FromFile(pictures.person);
+                            personmoving = true;
+                        }
                     }
                     break;
-
             }
         }
 

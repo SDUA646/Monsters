@@ -27,9 +27,10 @@ public class Person
         { y = value; }
     }
 
-    public void Move(int row, int column)
+    public void Move(int x, int y)
     {
-
+        this.x = x;
+        this.y = y;
     }
     public void getLife()
     {

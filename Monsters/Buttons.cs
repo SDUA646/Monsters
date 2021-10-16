@@ -37,4 +37,25 @@ public class Buttons : Button
         set
         { type = value; }
     }
+
+    public bool MovePerson(int x, int y, Person person)//传入新的坐标
+    {
+        //如果传入的新坐标在原坐标周围，则执行移动
+        bool condition1 = (x + y == person.X + person.Y + 1) && (x - person.X == 1 || x - person.X == 0);
+        bool condition2 = (x + y == person.X + person.Y - 1) && (x - person.X == -1 || x - person.X == 0);
+        bool success = false;
+        if (condition1 || condition2)
+        {
+            type = 0;
+            person.Move(x, y);//人物移动到新地址
+            BackgroundImage = null;
+            success = true;
+        }
+        return success;
+    }
+
+    public void MoveMonsters(ref int x, ref int y, Person person)
+    {
+
+    }
 }
