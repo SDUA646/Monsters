@@ -2,7 +2,7 @@
 
 public class Person
 {
-    private int life = 1;
+    public int life = 1;
     private int x;
     private int y;
     public int Life

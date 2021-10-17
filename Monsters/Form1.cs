@@ -45,6 +45,9 @@ namespace Monsters
         private void Form1_Load(object sender, EventArgs e)
         {
             Program.form1 = this;
+            label1.Text = (person.Life).ToString();
+            pictureBox1.Image = Image.FromFile(pictures.hearts);
+            //label1.UseMnemonic = false;
             groupBox1.Location = new Point(26, 26);
             groupBox1.Text = "";
             groupBox1.Size = new System.Drawing.Size(908, 908);
@@ -97,7 +100,7 @@ namespace Monsters
                 //按下鼠标左键
                 case MouseButtons.Left:
                     button[0, 0].BackgroundImage = Image.FromFile(pictures.person);
-                   
+                    getView(0, 0);
                     //for (int i = 0; i < row; i++)
                     //{
                     //    for (int j = 0; j < column; j++)
@@ -122,15 +125,17 @@ namespace Monsters
                     {
                         if(b.MovePerson(b.X, b.Y, person))
                         {
-                            if(button[person.X, person.Y].Type==2)
+
+                            button[person.X ,person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+                            b.Tag = 1;
+                            if (button[person.X, person.Y].Type == 2)
                             {
                                 person.Life++;
                                 button[person.X, person.Y].Type = 4;
+                                showPersonLife();
                             }
-                           
-                           
-                           // b.Tag = 1;
-                            getView(b.X,b.Y);
+                            if (button[person.X, person.Y].Type == 3) person.Life--;
+                                                   getView(b.X,b.Y);
                             b.BackgroundImage = Image.FromFile(pictures.person);
                             if (button[b.X, b.Y].Type == 5)
                             {
@@ -169,6 +174,12 @@ namespace Monsters
 
             }
             
+        }
+
+        private void showPersonLife()
+        {
+            label1.Text = (person.life).ToString();
+          
         }
         private void setObjects()
         {
@@ -213,6 +224,16 @@ namespace Monsters
                 }
             }
         }
-       
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            label1.Text = (person.Life).ToString();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
     }
 }
