@@ -86,6 +86,12 @@ namespace Monsters
                 }
             }
         }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button[0, 0].BackgroundImage = Image.FromFile(pictures.person);
+            button[0, 0].Type = 4;
+            getView(0, 0);
+        }
 
         private void bt_MouseUp(object sender, MouseEventArgs e)
         {
@@ -99,8 +105,7 @@ namespace Monsters
             {
                 //按下鼠标左键
                 case MouseButtons.Left:
-                    button[0, 0].BackgroundImage = Image.FromFile(pictures.person);
-                    getView(0, 0);
+                   
                     //for (int i = 0; i < row; i++)
                     //{
                     //    for (int j = 0; j < column; j++)
@@ -128,6 +133,8 @@ namespace Monsters
 
                             button[person.X ,person.Y].BackgroundImage = Image.FromFile(pictures.ground);
                             b.Tag = 1;
+
+                            //吃心，生命值++
                             if (button[person.X, person.Y].Type == 2)
                             {
                                 person.Life++;
@@ -136,13 +143,17 @@ namespace Monsters
                             }
                             
                            
-                            getView(b.X,b.Y);
-                            b.BackgroundImage = Image.FromFile(pictures.person);
-                            if (button[b.X, b.Y].Type == 5)
+                            getView(person.X,person.Y);
+
+                            button[person.X,person.Y].BackgroundImage = Image.FromFile(pictures.person);
+
+                            //通关判断
+                            if (button[person.X, person.Y].Type == 5)
                             {
                                 MessageBox.Show("你真牛逼！", "游戏通关");
                                 over = true;
                             }
+
                             personmoving = true;
                         }
                     }
@@ -154,6 +165,7 @@ namespace Monsters
         //开视野
         private void getView(int x,int y)
         {
+            //8格视野
             getImage(x - 1, y - 1);
             getImage(x - 1, y);
             getImage(x - 1, y + 1);
@@ -162,6 +174,36 @@ namespace Monsters
             getImage(x + 1, y - 1);
             getImage(x + 1, y);
             getImage(x + 1, y + 1);
+
+            //+12格视野
+            getImage(x - 1, y - 2);
+            getImage(x , y - 2);
+            getImage(x , y - 3);
+            getImage(x + 1, y - 2);
+
+            getImage(x - 1, y + 2);
+            getImage(x , y + 2);
+            getImage(x , y + 3);
+            getImage(x + 1, y + 2);
+
+            getImage(x - 2, y -1);
+            getImage(x - 2, y );
+            getImage(x - 3, y );
+            getImage(x - 2, y + 1);
+
+            getImage(x + 2, y - 1);
+            getImage(x + 2, y );
+            getImage(x + 3, y );
+            getImage(x + 2, y +1);
+
+            //+4视野
+            getImage(x - 2, y - 2);
+            getImage(x - 2, y + 2);
+            getImage(x + 2, y - 2);
+            getImage(x + 2, y + 2);
+
+
+
         }
 
         private void getImage(int x,int y)
