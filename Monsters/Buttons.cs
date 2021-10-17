@@ -76,6 +76,9 @@ public class Buttons : Button
                 case 4:
                     BackgroundImage = Image.FromFile(pictures.ground);
                     break;
+                case 5:
+                    BackgroundImage = Image.FromFile(pictures.victory);
+                    break;
             }
         }
     }

@@ -20,4 +20,6 @@ public class Pictures
     public string person = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\dianji.jpg";
     //空的图片
     public string ground = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\土地.png";
+    //通关图片
+    public string victory = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\face.bmp";
 }

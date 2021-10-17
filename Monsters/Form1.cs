@@ -29,9 +29,9 @@ namespace Monsters
         //游戏是否结束
         private bool over = false;
         //生成的行数
-        static  int row = 40;
+        static  int row = 20;
         //生成的列数
-       static int column = 40;
+       static int column = 20;
         //游戏过程中剩余怪的数量
         private int remainingmonsters;
         //人物是否正在移动，0为不移动，1为移动
@@ -122,11 +122,21 @@ namespace Monsters
                     {
                         if(b.MovePerson(b.X, b.Y, person))
                         {
-                            button[person.X ,person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+                            if(button[person.X, person.Y].Type==2)
+                            {
+                                person.Life++;
+                                button[person.X, person.Y].Type = 4;
+                            }
                            
-                            b.Tag = 1;
+                           
+                           // b.Tag = 1;
                             getView(b.X,b.Y);
                             b.BackgroundImage = Image.FromFile(pictures.person);
+                            if (button[b.X, b.Y].Type == 5)
+                            {
+                                MessageBox.Show("你真牛逼！", "游戏通关");
+                                over = true;
+                            }
                             personmoving = true;
                         }
                     }
@@ -152,7 +162,7 @@ namespace Monsters
 
         private void getImage(int x,int y)
         {          
-            if(x >= 0 && y >= 0 && x <= row && y <= column)
+            if(x >= 0 && y >= 0 && x <row && y <column)
             {
                 button[x, y].Tag = 1;
                 button[x, y].showImage();
@@ -163,6 +173,7 @@ namespace Monsters
         private void setObjects()
         {
             button[0, 0].Type = 1;
+            button[row-1,column-1].Type = 5;
             Random rand = new Random();
             //布心
             for (int i = 0; i < totalhearts; i++)
@@ -202,5 +213,6 @@ namespace Monsters
                 }
             }
         }
+       
     }
 }
