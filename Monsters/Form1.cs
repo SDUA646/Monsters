@@ -29,9 +29,9 @@ namespace Monsters
         //游戏是否结束
         private bool over = false;
         //生成的行数
-        static  int row = 20;
+        static  int row = 40;
         //生成的列数
-       static int column = 20;
+        static int column = 70;
         //游戏过程中剩余怪的数量
         private int remainingmonsters;
         //人物是否正在移动，0为不移动，1为移动
@@ -48,9 +48,9 @@ namespace Monsters
             label1.Text = (person.Life).ToString();
             pictureBox1.Image = Image.FromFile(pictures.hearts);
             //label1.UseMnemonic = false;
-            groupBox1.Location = new Point(26, 26);
+            groupBox1.Location = new Point(26, 40);
             groupBox1.Text = "";
-            groupBox1.Size = new System.Drawing.Size(908, 908);
+            groupBox1.Size = new System.Drawing.Size(1600, 908);
             groupBox1.FlatStyle = FlatStyle.Standard;
             this.Location = new Point(20, 20);
             timer.Enabled = true;
@@ -74,7 +74,7 @@ namespace Monsters
                 for (int j = 0; j < row; j++)
                 {
                     button[j, i] = new Buttons();
-                    button[j, i].Location = new Point(3 + i * 30, 6 + j * 30);
+                    button[j, i].Location = new Point(3 + i * 20, 6 + j * 20);
                     button[j, i].X = j;
                     button[j, i].Y = i;
                     button[j, i].Type = 0;
@@ -162,8 +162,6 @@ namespace Monsters
             getImage(x + 1, y - 1);
             getImage(x + 1, y);
             getImage(x + 1, y + 1);
-          
-
         }
 
         private void getImage(int x,int y)

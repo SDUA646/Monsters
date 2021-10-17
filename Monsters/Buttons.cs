@@ -16,7 +16,7 @@ public class Buttons : Button
     public Buttons()
     {
         Tag = 0;     ///0表示未翻开，1表示翻开
-        Size = new System.Drawing.Size(30, 30);
+        Size = new System.Drawing.Size(20, 20);
     }
     public int X
     {
