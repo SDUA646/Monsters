@@ -20,16 +20,16 @@ namespace Monsters
         }
         private const int INFINITY = 60000;
         //计时器1,人物
-        private Timer timer = new Timer();
-        //计时器2,怪物
-        private Timer timerM = new Timer();
-        //计时器
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        //计时器2,怪物
+        private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
+        //计时器
+        //private System.Windows.Forms.Timer timer1= new System.Windows.Forms.Timer();
 
         //所用时间
         private int totaltime = 0;
         //定义怪数
-        private int totalmonsters = 500;
+        private int totalmonsters = 50;
         //定义心数
         private int totalhearts = 200;
         //游戏是否结束
@@ -113,19 +113,25 @@ namespace Monsters
                     }
                 }
             }
-            if(visiblemonsters > -1)
+            if (visiblemonsters > -1)
             {
                 findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
-                for (int i = 0; i < visiblemonsters+1; i++)
+                for (int i = 0; i < visiblemonsters + 1; i++)
                 {
-                    if(button[monstersX[i], monstersY[i]].Type == 4)
+                    if (monstersX[i] == person.X && monstersY[i] == person.Y)
+                    {
+                        button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
+                        button[localmonstersX[i], localmonstersY[i]].Type = 4;
+                        person.life -= 1;
+                        showPersonLife();
+                    }
+                    else if (button[monstersX[i], monstersY[i]].Type == 4)
                     {
                         button[monstersX[i], monstersY[i]].BackgroundImage = Image.FromFile(pictures.monsters);
                         button[monstersX[i], monstersY[i]].Type = 3;
-                        button[localmonstersX[i],localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
+                        button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
                         button[localmonstersX[i], localmonstersY[i]].Type = 4;
-                    }                 ;
-
+                    };
                 }
             }
         }
@@ -199,41 +205,11 @@ namespace Monsters
             //            button[i, j].BackgroundImage = Image.FromFile(pictures.ground);
             //        }
             //}
-
-
-            //if (!personmoving)
-            //{
-            //    if (b.MovePerson(b.X, b.Y, person))
-            //    {
-
-            //        button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.ground);
-            //        b.Tag = 1;
-
-            //        //吃心，生命值++
-            //        if (button[person.X, person.Y].Type == 2)
-            //        {
-            //            person.Life++;
-            //            button[person.X, person.Y].Type = 4;
-            //            showPersonLife();
-            //        }
-
-
-            //        getView(person.X, person.Y);
-
-            //        button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person);
-
-            //        //通关判断
-            //        if (button[person.X, person.Y].Type == 5)
-            //        {
-            //            MessageBox.Show("你真牛逼！", "游戏通关");
-            //            over = true;
-            //        }
-
-            //        personmoving = true;
-            //    }
-            //}
-
-            //break;
+            if (button[person.X, person.Y].Type == 5)
+            {
+                MessageBox.Show("你真牛逼！", "游戏通关");
+                over = true;
+            }
 
 
         }
@@ -246,10 +222,12 @@ namespace Monsters
             y = b.Y;//y表示Button数组的第二个索引
             if (!personmoving)
             {
+                int personX = person.X;
+                int personY = person.Y;
                 if (b.MovePerson(b.X, b.Y, person))
                 {
-
-                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+                    button[personX, personY].Type = 4;
+                    button[personX, personY].BackgroundImage = Image.FromFile(pictures.ground);
                     b.Tag = 1;
 
                     //吃心，生命值++
@@ -268,8 +246,8 @@ namespace Monsters
                     //通关判断
                     if (button[person.X, person.Y].Type == 5)
                     {
-                        int personX = person.X;
-                        int personY = person.Y;
+                        personX = person.X;
+                        personY = person.Y;
                         if (b.MovePerson(b.X, b.Y, person))
                         {
                             button[personX, personY].Type = 4;
