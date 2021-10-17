@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,12 +18,18 @@ namespace Monsters
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
         }
+        private const int INFINITY = 60000;
+        //计时器1,人物
+        private Timer timer = new Timer();
+        //计时器2,怪物
+        private Timer timerM = new Timer();
         //计时器
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+
         //所用时间
         private int totaltime = 0;
         //定义怪数
-        private int totalmonsters = 50;
+        private int totalmonsters = 500;
         //定义心数
         private int totalhearts = 200;
         //游戏是否结束
@@ -45,6 +50,7 @@ namespace Monsters
         private Buttons[,] button = new Buttons[row, column];
         private Pictures pictures = new Pictures();
         private Person person = new Person();
+        private FindingPath findingpath = new FindingPath();
 
        
 
@@ -66,12 +72,62 @@ namespace Monsters
             this.StartPosition = FormStartPosition.Manual;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = 1000;
+            timerM.Enabled = true;
+            timerM.Tick += new EventHandler(timerM_Tick);
+            timerM.Interval = 1000;
+            findingpath.initFindingPath(row, column);
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             totaltime++;
             personmoving = false;
+        }
+        private void timerM_Tick(object sender, EventArgs e)
+        {
+            int[] monstersX = new int[50];
+            int[] monstersY = new int[50];
+            int[] localmonstersX = new int[50];
+            int[] localmonstersY = new int[50];
+            int visiblemonsters = -1;
+            int[,] terrain = new int[row, column];
+            for (int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < column; j++)
+                {
+                    if(button[i,j].Type == 3 && (int)button[i,j].Tag == 1)
+                    {
+                        visiblemonsters ++;
+                        monstersX[visiblemonsters] = i;
+                        monstersY[visiblemonsters] = j;
+                        localmonstersX[visiblemonsters] = i;
+                        localmonstersY[visiblemonsters] = j;
+                    }
+                    if((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
+                    {
+                        terrain[i, j] = 1;
+                    }
+                    else
+                    {
+                        terrain[i, j] = INFINITY;
+                    }
+                }
+            }
+            if(visiblemonsters > -1)
+            {
+                findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
+                for (int i = 0; i < visiblemonsters+1; i++)
+                {
+                    if(button[monstersX[i], monstersY[i]].Type == 4)
+                    {
+                        button[monstersX[i], monstersY[i]].BackgroundImage = Image.FromFile(pictures.monsters);
+                        button[monstersX[i], monstersY[i]].Type = 3;
+                        button[localmonstersX[i],localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
+                        button[localmonstersX[i], localmonstersY[i]].Type = 4;
+                    }                 ;
+
+                }
+            }
         }
         //生成地图
         private void groundField()
@@ -212,8 +268,31 @@ namespace Monsters
                     //通关判断
                     if (button[person.X, person.Y].Type == 5)
                     {
-                        MessageBox.Show("你真牛逼！", "游戏通关");
-                        over = true;
+                        int personX = person.X;
+                        int personY = person.Y;
+                        if (b.MovePerson(b.X, b.Y, person))
+                        {
+                            button[personX, personY].Type = 4;
+                            button[personX ,personY].BackgroundImage = Image.FromFile(pictures.ground);
+                            b.Tag = 1;
+                            if (button[person.X, person.Y].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X, person.Y].Type = 4;
+                                showPersonLife();
+                            }
+                            
+                           
+                            getView(b.X,b.Y);
+                            b.BackgroundImage = Image.FromFile(pictures.person);
+                            b.Type = 1;
+                            if (button[b.X, b.Y].Type == 5)
+                            {
+                                MessageBox.Show("你真牛逼！", "游戏通关");
+                                over = true;
+                            }
+                            personmoving = true;
+                        }
                     }
 
                     personmoving = true;
@@ -261,8 +340,6 @@ namespace Monsters
             getImage(x + 2, y - 2);
             getImage(x + 2, y + 2);
 
-
-
         }
 
         private void getImage(int x,int y)
@@ -307,7 +384,7 @@ namespace Monsters
 
                 int position_x = rand.Next(row);
                 int position_y = rand.Next(column);
-                if (button[position_x, position_y].Type == 0)
+                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
                 {
                     button[position_x, position_y].Type = 3;
                 }
