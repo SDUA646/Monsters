@@ -88,8 +88,14 @@ namespace Monsters
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            button[0, 0].BackgroundImage = Image.FromFile(pictures.person);
+            button[0, 0].BackgroundImage = Image.FromFile(pictures.person1);
+            button[1, 0].BackgroundImage = Image.FromFile(pictures.person2);
+            button[0, 1].BackgroundImage = Image.FromFile(pictures.person3);
+            button[1, 1].BackgroundImage = Image.FromFile(pictures.person4);
             button[0, 0].Type = 4;
+            button[0, 1].Type = 4;
+            button[1, 0].Type = 4;
+            button[1, 1].Type = 4;
             getView(0, 0);
         }
 
@@ -135,20 +141,49 @@ namespace Monsters
                             b.Tag = 1;
 
                             //吃心，生命值++
-                            if (button[person.X, person.Y].Type == 2)
+                            if (button[person.X+1, person.Y+1].Type == 2)
                             {
                                 person.Life++;
-                                button[person.X, person.Y].Type = 4;
+                                button[person.X+1, person.Y+1].Type = 4;
+                               
+                                showPersonLife();
+                            }
+                            if (button[person.X , person.Y + 1].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X , person.Y + 1].Type = 4;
+                                
                                 showPersonLife();
                             }
                             
-                           
+                            if (button[person.X +1, person.Y ].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X + 1, person.Y].Type = 4;
+                               
+                                showPersonLife();
+                            }
+                            if (button[person.X , person.Y].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X, person.Y].Type = 4;
+                               
+                                showPersonLife();
+                            }
+                            
+
+
+
+
                             getView(person.X,person.Y);
 
-                            button[person.X,person.Y].BackgroundImage = Image.FromFile(pictures.person);
+                            button[person.X,person.Y].BackgroundImage = Image.FromFile(pictures.person1);
+                            button[person.X+1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
+                            button[person.X, person.Y+1].BackgroundImage = Image.FromFile(pictures.person2);
+                            button[person.X + 1, person.Y+1].BackgroundImage = Image.FromFile(pictures.person3);
 
                             //通关判断
-                            if (button[person.X, person.Y].Type == 5)
+                            if (button[person.X+1, person.Y+1].Type == 5)
                             {
                                 MessageBox.Show("你真牛逼！", "游戏通关");
                                 over = true;
@@ -231,11 +266,15 @@ namespace Monsters
             for (int i = 0; i < totalhearts; i++)
             {
 
-                int position_x = rand.Next(row);
-                int position_y = rand.Next(column);
+                int position_x = rand.Next(row-1);
+                int position_y = rand.Next(column-1);
+               
                 if (button[position_x, position_y].Type == 0)
                 {
                     button[position_x, position_y].Type = 2;
+                   
+
+
                 }
                 else
                     i = i - 1;

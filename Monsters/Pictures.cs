@@ -17,7 +17,10 @@ public class Pictures
     //定义右键单击时，标记旗子图片的路径
     public string hearts = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\hearts.bmp";
     //地雷图片位置
-    public string person = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\dianji.jpg";
+    public string person1 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\person1.png";
+    public string person2 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\person2.png";
+    public string person3 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\person3.png";
+    public string person4 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\person4.png";
     //空的图片
     public string ground = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\土地.png";
     //通关图片
