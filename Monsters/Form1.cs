@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -18,12 +17,15 @@ namespace Monsters
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
         }
-        //计时器
+        private const int INFINITY = 65535;
+        //计时器1,人物
         private Timer timer = new Timer();
+        //计时器1,怪物
+        private Timer timerM = new Timer();
         //所用时间
         private int totaltime = 0;
         //定义怪数
-        private int totalmonsters = 50;
+        private int totalmonsters = 500;
         //定义心数
         private int totalhearts = 200;
         //游戏是否结束
@@ -41,6 +43,7 @@ namespace Monsters
         private Buttons[,] button = new Buttons[row, column];
         private Pictures pictures = new Pictures();
         private Person person = new Person();
+        private FindingPath findingpath = new FindingPath();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -59,12 +62,53 @@ namespace Monsters
             this.StartPosition = FormStartPosition.Manual;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = 1000;
+            timerM.Enabled = true;
+            timerM.Tick += new EventHandler(timerM_Tick);
+            timerM.Interval = 1400;
+            findingpath.initFindingPath(row, column);
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             totaltime++;
             personmoving = false;
+        }
+        private void timerM_Tick(object sender, EventArgs e)
+        {
+            int[] monstersX = new int[50];
+            int[] monstersY = new int[50];
+            int visiblemonsters = -1;
+            int[,] terrain = new int[row, column];
+            for (int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < column; j++)
+                {
+                    if(button[i,j].Type == 3 && (int)button[i,j].Tag == 1)
+                    {
+                        visiblemonsters ++;
+                        monstersX[i] = i;
+                        monstersY[i] = j;
+                        button[i, j].Type = 0;
+                        button[i, j].BackgroundImage = Image.FromFile(pictures.ground);
+                    }
+                    if(button[i, j].Type == 0 && (int)button[i, j].Tag == 1)
+                    {
+                        terrain[i, j] = 1;
+                    }
+                    else
+                    {
+                        terrain[i, j] = 0;
+                    }
+                }
+            }
+            findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
+            if(visiblemonsters > -1)
+            {
+                for (int i = 0; i < visiblemonsters; i++)
+                {
+                    button[monstersX[i], monstersY[i]].BackgroundImage = Image.FromFile(pictures.monsters);
+                }
+            }
         }
         //生成地图
         private void groundField()
