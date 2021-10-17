@@ -25,7 +25,7 @@ namespace Monsters
         //定义怪数
         private int totalmonsters = 50;
         //定义心数
-        private int totalhearts = 50;
+        private int totalhearts = 200;
         //游戏是否结束
         private bool over = false;
         //生成的行数
@@ -133,7 +133,7 @@ namespace Monsters
                                 button[person.X, person.Y].Type = 4;
                                 showPersonLife();
                             }
-                            if (button[person.X, person.Y].Type == 3) person.Life--;
+                            
                            
                             getView(b.X,b.Y);
                             b.BackgroundImage = Image.FromFile(pictures.person);
