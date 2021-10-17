@@ -67,12 +67,12 @@ public class Buttons : Button
             success = true;
 
         }
-        else if(( x <= 0 && y > 0 && -x >=  y)|| (x < 0 && y < 0 && x <= y))
+        else if(( x <= 0 && y > 0 && -x >=  y)|| (x < 0 && y <=0 && x <= y))
         {
             person.Move(person.X - 1, person.Y);
             success = true;
         }
-        else if ((x > 0 && y <= 0 && x < -y)|| (x < 0 && y <= 0 && x > y))
+        else if ((x > 0 && y <= 0 && x < -y)|| (x <= 0 && y <= 0 && x > y))
         {
             person.Move(person.X, person.Y -1 );
             success = true;

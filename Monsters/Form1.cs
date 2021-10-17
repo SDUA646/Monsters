@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Media;
+using System.Timers;
 
 namespace Monsters
 {
@@ -19,7 +20,7 @@ namespace Monsters
             this.Load += new EventHandler(Form1_Load);
         }
         //计时器
-        private Timer timer = new Timer();
+        private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         //所用时间
         private int totaltime = 0;
         //定义怪数
@@ -36,17 +37,23 @@ namespace Monsters
         private int remainingmonsters;
         //人物是否正在移动，0为不移动，1为移动
         bool personmoving = false;
+        //执行人物移动的函数的定时器
+        private static System.Timers.Timer aTimer;
+        
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
         private Pictures pictures = new Pictures();
         private Person person = new Person();
 
+       
+
         private void Form1_Load(object sender, EventArgs e)
         {
             Program.form1 = this;
             label1.Text = (person.Life).ToString();
-            pictureBox1.Image = Image.FromFile(pictures.hearts);
+           
+            //pictureBox1.Image = Image.FromFile(pictures.hearts);
             //label1.UseMnemonic = false;
             groupBox1.Location = new Point(26, 40);
             groupBox1.Text = "";
@@ -93,75 +100,127 @@ namespace Monsters
             getView(0, 0);
         }
 
+        Buttons b;
+
+        
         private void bt_MouseUp(object sender, MouseEventArgs e)
         {
-            int x, y;
+            //int x, y;
             //获取被点击的Button按钮
-            Buttons b = (Buttons)sender;
+            Buttons b1 = (Buttons)sender;
+            b = b1;
+            //x = b.X;//x代表button数组的第一个索引
+            //y = b.Y;//y表示Button数组的第二个索引
+            
+            //设置计时器，每隔一秒调用一次执行人物移动的函数
+             aTimer = new System.Timers.Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            aTimer.Interval = 1000;    //配置文件中配置的秒数
+            aTimer.Enabled = true;
+            //判断按下的鼠标键是哪个
+            //switch (e.Button)
+            //{
+            //    //按下鼠标左键
+            //    case MouseButtons.Left:
+
+            //for (int i = 0; i < row; i++)
+            //{
+            //    for (int j = 0; j < column; j++)
+            //        if (button[i, j].Type == 1)
+            //        {
+            //          button[i, j].BackgroundImage = Image.FromFile(pictures.person);
+            //        }
+            //        else if (button[i, j].Type == 2)
+            //        {
+            //            button[i, j].BackgroundImage = Image.FromFile(pictures.hearts);
+            //        }
+            //        else if (button[i, j].Type == 3)
+            //        {
+            //            button[i, j].BackgroundImage = Image.FromFile(pictures.monsters);
+            //        }
+            //        else if (button[i, j].Type == 4)
+            //        {
+            //            button[i, j].BackgroundImage = Image.FromFile(pictures.ground);
+            //        }
+            //}
+
+
+            //if (!personmoving)
+            //{
+            //    if (b.MovePerson(b.X, b.Y, person))
+            //    {
+
+            //        button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+            //        b.Tag = 1;
+
+            //        //吃心，生命值++
+            //        if (button[person.X, person.Y].Type == 2)
+            //        {
+            //            person.Life++;
+            //            button[person.X, person.Y].Type = 4;
+            //            showPersonLife();
+            //        }
+
+
+            //        getView(person.X, person.Y);
+
+            //        button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person);
+
+            //        //通关判断
+            //        if (button[person.X, person.Y].Type == 5)
+            //        {
+            //            MessageBox.Show("你真牛逼！", "游戏通关");
+            //            over = true;
+            //        }
+
+            //        personmoving = true;
+            //    }
+            //}
+
+            //break;
+
+
+        }
+        public  void OnTimedEvent(object source,ElapsedEventArgs es)
+        {
+            Control.CheckForIllegalCrossThreadCalls = false;
+
+            int x, y;
             x = b.X;//x代表button数组的第一个索引
             y = b.Y;//y表示Button数组的第二个索引
-            //判断按下的鼠标键是哪个
-            switch (e.Button)
+            if (!personmoving)
             {
-                //按下鼠标左键
-                case MouseButtons.Left:
-                   
-                    //for (int i = 0; i < row; i++)
-                    //{
-                    //    for (int j = 0; j < column; j++)
-                    //        if (button[i, j].Type == 1)
-                    //        {
-                    //          button[i, j].BackgroundImage = Image.FromFile(pictures.person);
-                    //        }
-                    //        else if (button[i, j].Type == 2)
-                    //        {
-                    //            button[i, j].BackgroundImage = Image.FromFile(pictures.hearts);
-                    //        }
-                    //        else if (button[i, j].Type == 3)
-                    //        {
-                    //            button[i, j].BackgroundImage = Image.FromFile(pictures.monsters);
-                    //        }
-                    //        else if (button[i, j].Type == 4)
-                    //        {
-                    //            button[i, j].BackgroundImage = Image.FromFile(pictures.ground);
-                    //        }
-                    //}
-                    if (! personmoving)
+                if (b.MovePerson(b.X, b.Y, person))
+                {
+
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+                    b.Tag = 1;
+
+                    //吃心，生命值++
+                    if (button[person.X, person.Y].Type == 2)
                     {
-                        if(b.MovePerson(b.X, b.Y, person))
-                        {
-
-                            button[person.X ,person.Y].BackgroundImage = Image.FromFile(pictures.ground);
-                            b.Tag = 1;
-
-                            //吃心，生命值++
-                            if (button[person.X, person.Y].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X, person.Y].Type = 4;
-                                showPersonLife();
-                            }
-                            
-                           
-                            getView(person.X,person.Y);
-
-                            button[person.X,person.Y].BackgroundImage = Image.FromFile(pictures.person);
-
-                            //通关判断
-                            if (button[person.X, person.Y].Type == 5)
-                            {
-                                MessageBox.Show("你真牛逼！", "游戏通关");
-                                over = true;
-                            }
-
-                            personmoving = true;
-                        }
+                        person.Life++;
+                        button[person.X, person.Y].Type = 4;
+                        showPersonLife();
                     }
-                    
-                    break;
+
+
+                    getView(person.X, person.Y);
+
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person);
+
+                    //通关判断
+                    if (button[person.X, person.Y].Type == 5)
+                    {
+                        MessageBox.Show("你真牛逼！", "游戏通关");
+                        over = true;
+                    }
+
+                    personmoving = true;
+                }
             }
         }
-        
+
         //开视野
         private void getView(int x,int y)
         {
@@ -216,6 +275,8 @@ namespace Monsters
             }
             
         }
+
+       
 
         private void showPersonLife()
         {
