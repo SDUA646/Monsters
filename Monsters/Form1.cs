@@ -95,7 +95,7 @@ namespace Monsters
             {
                 for (int j = 0; j < column; j++)
                 {
-                    if (button[i, j].Type == 3 && (int)button[i, j].Tag == 1)
+                    if ((button[i, j].Type == 3 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
                     {
                         visiblemonsters++;
                         monstersX[visiblemonsters] = i;
@@ -106,6 +106,10 @@ namespace Monsters
                     if ((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
                     {
                         terrain[i, j] = 1;
+                    }
+                    else if((button[i, j].Type == 14 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
+                    {
+                        terrain[i, j] = 2;
                     }
                     else
                     {
@@ -120,17 +124,14 @@ namespace Monsters
                 {
                     if (monstersX[i] == person.X && monstersY[i] == person.Y)
                     {
-                        button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
-                        button[localmonstersX[i], localmonstersY[i]].Type = 4;
+                        findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
                         person.life -= 1;
                         showPersonLife();
                     }
-                    else if (button[monstersX[i], monstersY[i]].Type == 4)
+                    else if ((button[monstersX[i], monstersY[i]].Type == 4) || (button[monstersX[i], monstersY[i]].Type == 14))
                     {
-                        button[monstersX[i], monstersY[i]].BackgroundImage = Image.FromFile(pictures.monsters);
-                        button[monstersX[i], monstersY[i]].Type = 3;
-                        button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
-                        button[localmonstersX[i], localmonstersY[i]].Type = 4;
+                        findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures);
+                        findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
                     };
                 }
             }

@@ -22,6 +22,7 @@ public class Map
 				}
 				buttons[row * 3 / 5, column / 3 - 2].Type = 0;
 				buttons[row * 3 / 5 - 1, column / 3 - 2].Type = 0;
+				buttons[row * 3 / 5 - 2, column / 3 - 2].Type = 0;
 				for (int i = row / 4 - 1; i < row * 3 / 5; i++)
 				{
 					for (int j = column / 3 - 1; j < column * 2 / 3; j++)
