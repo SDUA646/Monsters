@@ -257,10 +257,7 @@ namespace Monsters
                         over = true;
                     }
                     personmoving = true;
-                      
-                    
-
-                    personmoving = true;
+                             
                 }
             }
         }
