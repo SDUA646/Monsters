@@ -23,23 +23,17 @@ namespace Monsters
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         //计时器2,怪物
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
-        //计时器
-        //private System.Windows.Forms.Timer timer1= new System.Windows.Forms.Timer();
-
-        //所用时间
-        private int totaltime = 0;
+   
         //定义怪数
         private int totalmonsters = 150;
         //定义心数
-        private int totalhearts = 10;
+        private int totalhearts = 50;
         //游戏是否结束
         private bool over = false;
         //生成的行数
         static int row = 40;
         //生成的列数
         static int column = 70;
-        //游戏过程中剩余怪的数量
-        private int remainingmonsters;
         //人物是否正在移动，0为不移动，1为移动
         bool personmoving = false;
         //执行人物移动的函数的定时器
@@ -64,7 +58,6 @@ namespace Monsters
         {
             
             label1.Text = (person.Life).ToString();
-
            
             groupBox1.Location = new Point(26, 40);
             groupBox1.Text = "";
@@ -75,6 +68,7 @@ namespace Monsters
             setObjects();
             this.StartPosition = FormStartPosition.Manual;
             timer.Enabled = true;
+            timer.Stop();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = 10;
 
@@ -120,6 +114,7 @@ namespace Monsters
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            timer.Start();
             for (int i = 0; i < column; i++)
             {
                 for (int j = 0; j < row; j++)
@@ -171,8 +166,8 @@ namespace Monsters
                     if(over == true)
                     {
                         MessageBox.Show("你真牛逼！", "游戏通关");
-                    this.Dispose();
-                    this.Close();
+                        this.Dispose();
+                        this.Close();
 
                     }
                    
