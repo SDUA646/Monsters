@@ -234,11 +234,39 @@ namespace Monsters
                         showPersonLife();
                     }
                     if (button[person.X , person.Y].Type == 2)
-                        {
+                    {
                         person.Life++;
                         button[person.X, person.Y].Type = 4;
                         showPersonLife();
-                        }
+                    }
+                    if (button[person.X + 1, person.Y + 1].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y + 1].Type = 14;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X, person.Y + 1].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X, person.Y + 1].Type = 14;
+
+                        showPersonLife();
+                    }
+
+                    if (button[person.X + 1, person.Y].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y].Type = 14;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X, person.Y].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X, person.Y].Type = 14;
+                        showPersonLife();
+                    }
 
                     //开视野，探索地图
                     getView(person.X, person.Y);
@@ -257,10 +285,6 @@ namespace Monsters
                         MessageBox.Show("你真牛逼！", "游戏通关");
                         over = true;
                     }
-                    personmoving = true;
-                      
-                    
-
                     personmoving = true;
                 }
             }
