@@ -52,19 +52,10 @@ public class Buttons : Button
 
     public bool MovePerson(int mouseX, int mouseY, Person person)//传入新的坐标
     {
-        //如果传入的新坐标在原坐标周围，则执行移动
-        //bool condition1 = (x + y == person.X + person.Y + 1) && (x - person.X == 1 || x - person.X == 0);
-        //bool condition2 = (x + y == person.X + person.Y - 1) && (x - person.X == -1 || x - person.X == 0);
-
+      
         bool success = false;
-        //if (condition1 || condition2)
-        //{
-        //  //  type = 4;
-        //     person.Move(x, y);//人物移动到新地址
-        // //   BackgroundImage = Image.FromFile(pictures.ground); ;
-        //    success = true;
-        //}
-        //return success;
+        
+
         int x = mouseX - person.X, y = mouseY - person.Y;
         if((x > 0 && y >= 0 && x >= y)||(x > 0 && y < 0 && x >= - y))
         {
