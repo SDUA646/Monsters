@@ -157,9 +157,9 @@ namespace Monsters
         private void button1_Click(object sender, EventArgs e)
         {
             button[0, 0].BackgroundImage = Image.FromFile(pictures.person1);
-            button[1, 0].BackgroundImage = Image.FromFile(pictures.person2);
-            button[0, 1].BackgroundImage = Image.FromFile(pictures.person3);
-            button[1, 1].BackgroundImage = Image.FromFile(pictures.person4);
+            button[1, 0].BackgroundImage = Image.FromFile(pictures.person4);
+            button[0, 1].BackgroundImage = Image.FromFile(pictures.person2);
+            button[1, 1].BackgroundImage = Image.FromFile(pictures.person3);
             button[0, 0].Type = 4;
             button[0, 1].Type = 4;
             button[1, 0].Type = 4;
@@ -172,76 +172,48 @@ namespace Monsters
 
         private void bt_MouseUp(object sender, MouseEventArgs e)
         {
-            //int x, y;
+           
             //获取被点击的Button按钮
             Buttons b1 = (Buttons)sender;
             b = b1;
-            //x = b.X;//x代表button数组的第一个索引
-            //y = b.Y;//y表示Button数组的第二个索引
+            
 
             //设置计时器，每隔一秒调用一次执行人物移动的函数
             aTimer = new System.Timers.Timer();
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             aTimer.Interval = 1000;    //配置文件中配置的秒数
-            aTimer.Enabled = true;
-      
-            if (button[person.X, person.Y].Type == 5)
-            {
-                MessageBox.Show("你真牛逼！", "游戏通关");
-                over = true;
-            }
-
-
+            aTimer.Enabled = true;      
+        
         }
         public void OnTimedEvent(object source, ElapsedEventArgs es)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
 
-            int x, y;
-            x = b.X;//x代表button数组的第一个索引
-            y = b.Y;//y表示Button数组的第二个索引
-            if (!personmoving)
-            {
-                int personX = person.X;
-                int personY = person.Y;
-                if (b.MovePerson(b.X, b.Y, person))
-                {
-                    button[personX, personY].Type = 4;
-                    button[personX, personY].BackgroundImage = Image.FromFile(pictures.ground);
+              if (!personmoving)
+              {
+                    //游戏通关，停止运行
+                    if(over == true)
+                    {
+                        MessageBox.Show("你真牛逼！", "游戏通关");
 
-                    //吃心，生命值++
-                    if (button[person.X+1, person.Y+1].Type == 2)
-                    {
-                        person.Life++;
-                        button[person.X+1, person.Y+1].Type = 4;
-                               
-                        showPersonLife();
                     }
-                    if (button[person.X , person.Y + 1].Type == 2)
+                   
+                    if (b.MovePerson(b.X, b.Y, person))
                     {
-                        person.Life++;
-                        button[person.X , person.Y + 1].Type = 4;
-                                
-                        showPersonLife();
-                    }
-                            
-                    if (button[person.X +1, person.Y ].Type == 2)
-                    {
-                        person.Life++;
-                        button[person.X + 1, person.Y].Type = 4;
-                               
-                        showPersonLife();
-                    }
-                    if (button[person.X , person.Y].Type == 2)
-                        {
-                        person.Life++;
                         button[person.X, person.Y].Type = 4;
-                        showPersonLife();
-                        }
+                        button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.ground);
+                    if (person.X == row - 1)
+                        person.X -= 1;
+                    if (person.Y == column - 1)
+                        person.Y -= 1;
+                    //吃心，生命值++
+
+                    checkHerts(person.X, person.Y);
 
                     //开视野，探索地图
                     getView(person.X, person.Y);
 
+                    //展示新的人物形象
                     button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1);
                     button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
                     button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
@@ -249,61 +221,82 @@ namespace Monsters
 
 
                     //通关判断
-                
-                       
-                    if (button[person.X+1, person.Y+1].Type == 5)
-                    {
-                        MessageBox.Show("你真牛逼！", "游戏通关");
+
+
+                    if (button[person.X, person.Y].Type == 5)
+                    {                    
                         over = true;
                     }
                     personmoving = true;
-                      
-                    
-
-                    personmoving = true;
+                             
                 }
             }
         }
 
-        //开视野
+        //吃心函数，检测按钮的type，如果是心，生命值++
+        private void checkHerts(int x,int y)
+        {
+            if (button[x + 1, y + 1].Type == 2)
+            {
+                person.Life++;
+                button[x + 1, y].Type = 4;
+
+                showPersonLife();
+            }
+            if (button[x, y].Type == 2)
+            {
+                person.Life++;
+                button[x, y + 1].Type = 4;
+
+                showPersonLife();
+            }
+
+            if (button[x + 1, y].Type == 2)
+            {
+                person.Life++;
+                button[x + 1, y].Type = 4;
+
+                showPersonLife();
+            }
+            if (button[x, y].Type == 2)
+            {
+                person.Life++;
+                button[person.X, person.Y].Type = 4;
+                showPersonLife();
+            }
+        }
+
+        //开视野，10/22，新调视野
         private void getView(int x, int y)
         {
             //8格视野
             getImage(x - 1, y - 1);
             getImage(x - 1, y);
             getImage(x - 1, y + 1);
-            getImage(x, y - 1);
-            getImage(x, y + 1);
-            getImage(x + 1, y - 1);
-            getImage(x + 1, y);
-            getImage(x + 1, y + 1);
-
-            //+12格视野
-            getImage(x - 1, y - 2);
-            getImage(x, y - 2);
-            getImage(x, y - 3);
-            getImage(x + 1, y - 2);
-
             getImage(x - 1, y + 2);
+
+            getImage(x - 2, y);
+            getImage(x -2, y + 1);
+
+            getImage(x, y - 2);
+            getImage(x, y - 1);
             getImage(x, y + 2);
             getImage(x, y + 3);
-            getImage(x + 1, y + 2);
 
-            getImage(x - 2, y - 1);
-            getImage(x - 2, y);
-            getImage(x - 3, y);
-            getImage(x - 2, y + 1);
+          
+            getImage(x + 1, y - 2);
+            getImage(x + 1, y - 1);
+            getImage(x + 1, y + 2);
+            getImage(x + 1, y + 3);
 
             getImage(x + 2, y - 1);
-            getImage(x + 2, y);
-            getImage(x + 3, y);
+            getImage(x + 2, y );
             getImage(x + 2, y + 1);
-
-            //+4视野
-            getImage(x - 2, y - 2);
-            getImage(x - 2, y + 2);
-            getImage(x + 2, y - 2);
             getImage(x + 2, y + 2);
+
+            getImage(x + 3, y);
+            getImage(x + 3, y + 1);
+
 
         }
 
@@ -328,7 +321,7 @@ namespace Monsters
         private void setObjects()
         {
             button[0, 0].Type = 1;
-            button[row - 1, column - 1].Type = 5;
+            button[row - 2, column - 2].Type = 5;
             Random rand = new Random();
             //布心
             for (int i = 0; i < totalhearts; i++)
