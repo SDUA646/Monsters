@@ -20,8 +20,8 @@ namespace Monsters
             Application.SetCompatibleTextRenderingDefault(false);
             
 
-            Application.Run(new Form1());
+            Application.Run(new Form2());
         }
-        public static Form1 form1;
+
     }
 }

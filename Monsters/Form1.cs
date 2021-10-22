@@ -29,9 +29,9 @@ namespace Monsters
         //所用时间
         private int totaltime = 0;
         //定义怪数
-        private int totalmonsters = 50;
+        private int totalmonsters = 150;
         //定义心数
-        private int totalhearts = 200;
+        private int totalhearts = 10;
         //游戏是否结束
         private bool over = false;
         //生成的行数
@@ -57,7 +57,7 @@ namespace Monsters
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Program.form1 = this;
+            
             label1.Text = (person.Life).ToString();
 
            
@@ -144,12 +144,14 @@ namespace Monsters
                 for (int j = 0; j < row; j++)
                 {
                     button[j, i] = new Buttons();
+                
                     button[j, i].Location = new Point(3 + i * 20, 6 + j * 20);
                     button[j, i].X = j;
                     button[j, i].Y = i;
                     button[j, i].Type = 0;
                     button[j, i].Font = new System.Drawing.Font("宋体", button[j, i].Font.Size, button[j, i].Font.Style);
                     button[j, i].FlatStyle = FlatStyle.Flat;
+                    button[j, i].Enabled = false;
 
                     groupBox1.Controls.Add(button[j, i]);
                     button[j, i].MouseUp += new MouseEventHandler(bt_MouseUp);
@@ -158,6 +160,14 @@ namespace Monsters
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < column; i++)
+            {
+                for (int j = 0; j < row; j++)
+                {
+                    button[j, i].Enabled = true;
+
+                }
+            }
             button[0, 0].BackgroundImage = Image.FromFile(pictures.person1);
             button[1, 0].BackgroundImage = Image.FromFile(pictures.person4);
             button[0, 1].BackgroundImage = Image.FromFile(pictures.person2);
@@ -167,6 +177,7 @@ namespace Monsters
             button[1, 0].Type = 4;
             button[1, 1].Type = 4;
             getView(0, 0);
+            button1.Enabled = false;
         }
 
         Buttons b;
@@ -198,6 +209,8 @@ namespace Monsters
                     if(over == true)
                     {
                         MessageBox.Show("你真牛逼！", "游戏通关");
+                    this.Dispose();
+                    this.Close();
 
                     }
                    
@@ -267,34 +280,36 @@ namespace Monsters
                 showPersonLife();
             }
             if (button[x + 1, person.Y + 1].Type == 12)
-                    {
-                        person.Life++;
-                        button[x + 1, y + 1].Type = 14;
+            {
+                person.Life++;
+                button[x + 1, y + 1].Type = 14;
 
-                        showPersonLife();
-                    }
-                    if (button[x, y + 1].Type == 12)
-                    {
-                        person.Life++;
-                        button[x, y + 1].Type = 14;
+                showPersonLife();
+            }
+            if (button[x, y + 1].Type == 12)
+            {
+                person.Life++;
+                button[x, y + 1].Type = 14;
 
-                        showPersonLife();
-                    }
+                showPersonLife();
+            }
 
-                    if (button[x + 1, y].Type == 12)
-                    {
-                        person.Life++;
-                        button[x + 1, y].Type = 14;
+            if (button[x + 1, y].Type == 12)
+            {
+                person.Life++;
+                button[x + 1, y].Type = 14;
 
-                        showPersonLife();
-                    }
-                    if (button[x, y].Type == 12)
-                    {
-                        person.Life++;
-                        button[x, y].Type = 14;
-                        showPersonLife();
-                    }
+                showPersonLife();
+            }
+            if (button[x, y].Type == 12)
+            {
+                person.Life++;
+                button[x, y].Type = 14;
+                showPersonLife();
+            }
         }
+
+    
 
         //开视野，10/22，新调视野
         private void getView(int x, int y)
@@ -346,7 +361,6 @@ namespace Monsters
         private void showPersonLife()
         {
             label1.Text = (person.life).ToString();
-
         }
         private void setObjects()
         {
@@ -402,15 +416,27 @@ namespace Monsters
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
+   
+
+        private void label1_TextChanged(object sender, EventArgs e)
         {
-            label1.Text = (person.Life).ToString();
+            if(int.Parse(label1.Text) <= 0)
+            {
+                aTimer.Stop();
+
+                MessageBox.Show("gg");
+               
+                this.Dispose();
+               
+                this.Close();
+            }
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void esc_Click(object sender, EventArgs e)
         {
-
+            aTimer.Stop();
+            this.Dispose();
+            this.Close();
         }
-
     }
 }
