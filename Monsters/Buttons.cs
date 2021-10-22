@@ -10,6 +10,7 @@ public class Buttons : Button
     private int x;
     private int y;
     private Pictures pictures = new Pictures();
+    private int moveonterrain = 0;
     //记录该个控件下的object，0为空，1为人
     //2为心，3为怪，4为地，5为终点
     //10为障碍物
@@ -19,6 +20,13 @@ public class Buttons : Button
     {
         Tag = 0;     ///0表示未翻开，1表示翻开
         Size = new System.Drawing.Size(20, 20);
+    }
+    public int Moveonterrain
+    {
+        get
+        { return moveonterrain; }
+        set
+        { moveonterrain = value; }
     }
     public int X
     {

@@ -107,7 +107,7 @@ public class FindingPath
 
         }
     }
-    public int transType(ref Buttons button, Transtype transtype,Pictures pictures)
+    public int transType(ref Buttons button, Transtype transtype, Pictures pictures)
     {
         switch (transtype)
         {
@@ -146,6 +146,22 @@ public class FindingPath
                 break;
         }
         return button.Type;
+    }
+
+    public bool canMove(Buttons button)
+    {
+        bool condition1 = button.Type < 10;
+        bool condition2 = button.Type > 10 && button.Moveonterrain == 1;
+        if (condition1 || condition2)
+        {
+            button.Moveonterrain = 0;
+            return true;
+        }
+        else
+        {
+            button.Moveonterrain += 1;
+            return false;
+        }
     }
 }
 
