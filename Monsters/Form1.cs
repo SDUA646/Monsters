@@ -207,9 +207,6 @@ namespace Monsters
                 int personY = person.Y;
                 if (b.MovePerson(b.X, b.Y, person))
                 {
-                    button[personX, personY].Type = 4;
-                    button[personX, personY].BackgroundImage = Image.FromFile(pictures.ground);
-
                     //吃心，生命值++
                     if (button[person.X+1, person.Y+1].Type == 2)
                     {
