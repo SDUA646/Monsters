@@ -31,7 +31,7 @@ namespace Monsters
         //定义怪数
         private int totalmonsters = 200;
         //定义心数
-        private int totalhearts = 200;
+        private int totalhearts = 0;
         //游戏是否结束
         private bool over = false;
         //生成的行数
@@ -44,10 +44,15 @@ namespace Monsters
         bool personmoving = false;
         //执行人物移动的函数的定时器
         private static System.Timers.Timer aTimer;
+        //
+        int monstertime = 0;
+        //
+        int persontime = 0;
 
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
+        private Buttons b;
         private Pictures pictures = new Pictures();
         private Person person = new Person();
         private FindingPath findingpath = new FindingPath();
@@ -66,84 +71,30 @@ namespace Monsters
             groupBox1.Size = new System.Drawing.Size(1600, 908);
             groupBox1.FlatStyle = FlatStyle.Standard;
             this.Location = new Point(20, 20);
-            timer.Enabled = true;
             groundField();
             setObjects();
             this.StartPosition = FormStartPosition.Manual;
+            timer.Enabled = true;
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = 1000;
-            timerM.Enabled = true;
-            timerM.Tick += new EventHandler(timerM_Tick);
-            timerM.Interval = 700;
+            timer.Interval = 10;
+
+            //设置计时器，每隔一秒调用一次执行人物移动的函数
+            aTimer = new System.Timers.Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            aTimer.Interval = 100;    //配置文件中配置的秒数
+            aTimer.Enabled = true;
+
+            b = button[0, 0];
             findingpath.initFindingPath(row, column);
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            totaltime++;
-            personmoving = false;
-        }
-        private void timerM_Tick(object sender, EventArgs e)
-        {
-            int[] monstersX = new int[50];
-            int[] monstersY = new int[50];
-            int[] localmonstersX = new int[50];
-            int[] localmonstersY = new int[50];
-            int visiblemonsters = -1;
-            int[,] terrain = new int[row, column];
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < column; j++)
-                {
-                    if ((button[i, j].Type == 3 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
-                    {
-                        visiblemonsters++;
-                        monstersX[visiblemonsters] = i;
-                        monstersY[visiblemonsters] = j;
-                        localmonstersX[visiblemonsters] = i;
-                        localmonstersY[visiblemonsters] = j;
-                    }
-                    if ((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
-                    {
-                        terrain[i, j] = 1;
-                    }
-                    else if((button[i, j].Type == 14 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
-                    {
-                        terrain[i, j] = 2;
-                    }
-                    else
-                    {
-                        terrain[i, j] = INFINITY;
-                    }
-                }
-            }
-            if (visiblemonsters > -1)
-            {
-                findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
-                for (int i = 0; i < visiblemonsters + 1; i++)
-                {
-                    bool condition1 = monstersX[i] == person.X && monstersY[i] == person.Y;
-                    bool condition2 = monstersX[i] == person.X + 1 && monstersY[i] == person.Y;
-                    bool condition3 = monstersX[i] == person.X && monstersY[i] == person.Y + 1;
-                    bool condition4 = monstersX[i] == person.X + 1 && monstersY[i] == person.Y + 1;
-
-                    if (findingpath.canMove(button[monstersX[i], monstersY[i]]))
-                    {
-                        if (condition1 || condition2 || condition3 || condition4)
-                        {
-                            findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
-                            person.life -= 1;
-                            showPersonLife();
-                        }
-                        else if ((button[monstersX[i], monstersY[i]].Type == 4) || (button[monstersX[i], monstersY[i]].Type == 14))
-                        {
-                            findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures);
-                            findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
-                        }
-                    }
-                }   
-                    
-            }
+            //展示新的人物形象
+            button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1);
+            button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
+            button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
+            button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person3);
         }
         //生成地图
         private void groundField()
@@ -178,7 +129,7 @@ namespace Monsters
             getView(0, 0);
         }
 
-        Buttons b;
+        
 
 
         private void bt_MouseUp(object sender, MouseEventArgs e)
@@ -188,20 +139,22 @@ namespace Monsters
             Buttons b1 = (Buttons)sender;
             b = b1;
             
-
-            //设置计时器，每隔一秒调用一次执行人物移动的函数
-            aTimer = new System.Timers.Timer();
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = 1000;    //配置文件中配置的秒数
-            aTimer.Enabled = true;      
-        
         }
         public void OnTimedEvent(object source, ElapsedEventArgs es)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
 
-
-              if (!personmoving)
+            if (persontime == 9)
+            {
+                personmoving = false;
+                persontime = 0;
+            }
+            else
+            {
+                persontime++;
+            }
+            monsterMoving();
+            if (!personmoving)
               {
                     //游戏通关，停止运行
                     if(over == true)
@@ -218,7 +171,7 @@ namespace Monsters
                         person.Y -= 1;
                     //吃心，生命值++
 
-                    checkHerts(person.X, person.Y);
+                    checkHearts(person.X, person.Y);
 
 
 
@@ -242,10 +195,11 @@ namespace Monsters
                     personmoving = true;
                 }
             }
+            
         }
 
         //吃心函数，检测按钮的type，如果是心，生命值++
-        private void checkHerts(int x,int y)
+        private void checkHearts(int x,int y)
         {
             if (button[x + 1, y + 1].Type == 2)
             {
@@ -276,33 +230,33 @@ namespace Monsters
                 showPersonLife();
             }
             if (button[x + 1, person.Y + 1].Type == 12)
-                    {
-                        person.Life++;
-                        button[x + 1, y + 1].Type = 14;
+            {
+                person.Life++;
+                button[x + 1, y + 1].Type = 14;
 
-                        showPersonLife();
-                    }
-                    if (button[x, y + 1].Type == 12)
-                    {
-                        person.Life++;
-                        button[x, y + 1].Type = 14;
+                showPersonLife();
+            }
+            if (button[x, y + 1].Type == 12)
+            {
+                person.Life++;
+                button[x, y + 1].Type = 14;
 
-                        showPersonLife();
-                    }
+                showPersonLife();
+            }
 
-                    if (button[x + 1, y].Type == 12)
-                    {
-                        person.Life++;
-                        button[x + 1, y].Type = 14;
+            if (button[x + 1, y].Type == 12)
+            {
+                person.Life++;
+                button[x + 1, y].Type = 14;
 
-                        showPersonLife();
-                    }
-                    if (button[x, y].Type == 12)
-                    {
-                        person.Life++;
-                        button[x, y].Type = 14;
-                        showPersonLife();
-                    }
+                showPersonLife();
+            }
+            if (button[x, y].Type == 12)
+            {
+                person.Life++;
+                button[x, y].Type = 14;
+                showPersonLife();
+            }
         }
 
         //开视野，10/22，新调视野
@@ -355,6 +309,77 @@ namespace Monsters
         {
             label1.Text = (person.life).ToString();
 
+        }
+
+        private void monsterMoving()
+        {
+            if (monstertime == 6)
+            {
+                int[] monstersX = new int[50];
+                int[] monstersY = new int[50];
+                int[] localmonstersX = new int[50];
+                int[] localmonstersY = new int[50];
+                int visiblemonsters = -1;
+                int[,] terrain = new int[row, column];
+                for (int i = 0; i < row; i++)
+                {
+                    for (int j = 0; j < column; j++)
+                    {
+                        if ((button[i, j].Type == 3 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
+                        {
+                            visiblemonsters++;
+                            monstersX[visiblemonsters] = i;
+                            monstersY[visiblemonsters] = j;
+                            localmonstersX[visiblemonsters] = i;
+                            localmonstersY[visiblemonsters] = j;
+                        }
+                        if ((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
+                        {
+                            terrain[i, j] = 1;
+                        }
+                        else if ((button[i, j].Type == 14 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
+                        {
+                            terrain[i, j] = 2;
+                        }
+                        else
+                        {
+                            terrain[i, j] = INFINITY;
+                        }
+                    }
+                }
+                if (visiblemonsters > -1)
+                {
+                    findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
+                    for (int i = 0; i < visiblemonsters + 1; i++)
+                    {
+                        bool condition1 = monstersX[i] >= Math.Max(person.X, 0) && monstersX[i] <= Math.Min(person.X + 1, row);
+                        bool condition2 = monstersY[i] >= Math.Max(person.Y, 0) && monstersY[i] <= Math.Min(person.Y + 1, column);
+                        bool condition3 = localmonstersX[i] > Math.Max(person.X - 1, 0) && localmonstersX[i] < Math.Min(person.X + 3, row);
+                        bool condition4 = localmonstersY[i] > Math.Max(person.Y - 1, 0) && localmonstersY[i] < Math.Min(person.Y + 3, column);
+
+                        if (findingpath.canMove(button[monstersX[i], monstersY[i]]))
+                        {
+                            if ((condition1 && condition2)||(condition3 && condition4))
+                            {
+                                findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
+                                person.life -= 1;
+                                showPersonLife();
+                            }
+                            else if ((button[monstersX[i], monstersY[i]].Type == 4) || (button[monstersX[i], monstersY[i]].Type == 14))
+                            {
+                                findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures);
+                                findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
+                            }
+                        }
+                    }
+
+                }
+                monstertime = 0;
+            }
+            else
+            {
+                monstertime++;
+            }
         }
         private void setObjects()
         {
