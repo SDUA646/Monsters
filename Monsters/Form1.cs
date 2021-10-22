@@ -29,7 +29,7 @@ namespace Monsters
         //所用时间
         private int totaltime = 0;
         //定义怪数
-        private int totalmonsters = 50;
+        private int totalmonsters = 200;
         //定义心数
         private int totalhearts = 200;
         //游戏是否结束
@@ -74,7 +74,7 @@ namespace Monsters
             timer.Interval = 1000;
             timerM.Enabled = true;
             timerM.Tick += new EventHandler(timerM_Tick);
-            timerM.Interval = 1000;
+            timerM.Interval = 700;
             findingpath.initFindingPath(row, column);
         }
 
@@ -122,18 +122,27 @@ namespace Monsters
                 findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
                 for (int i = 0; i < visiblemonsters + 1; i++)
                 {
-                    if (monstersX[i] == person.X && monstersY[i] == person.Y)
+                    bool condition1 = monstersX[i] == person.X && monstersY[i] == person.Y;
+                    bool condition2 = monstersX[i] == person.X + 1 && monstersY[i] == person.Y;
+                    bool condition3 = monstersX[i] == person.X && monstersY[i] == person.Y + 1;
+                    bool condition4 = monstersX[i] == person.X + 1 && monstersY[i] == person.Y + 1;
+
+                    if (findingpath.canMove(button[monstersX[i], monstersY[i]]))
                     {
-                        findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
-                        person.life -= 1;
-                        showPersonLife();
+                        if (condition1 || condition2 || condition3 || condition4)
+                        {
+                            findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
+                            person.life -= 1;
+                            showPersonLife();
+                        }
+                        else if ((button[monstersX[i], monstersY[i]].Type == 4) || (button[monstersX[i], monstersY[i]].Type == 14))
+                        {
+                            findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures);
+                            findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
+                        }
                     }
-                    else if ((button[monstersX[i], monstersY[i]].Type == 4) || (button[monstersX[i], monstersY[i]].Type == 14))
-                    {
-                        findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures);
-                        findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
-                    };
-                }
+                }   
+                    
             }
         }
         //生成地图
@@ -338,7 +347,6 @@ namespace Monsters
                 button[x, y].showImage();
 
             }
-
         }
 
 
