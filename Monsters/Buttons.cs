@@ -12,6 +12,8 @@ public class Buttons : Button
     private Pictures pictures = new Pictures();
     //记录该个控件下的object，0为空，1为人
     //2为心，3为怪，4为地，5为终点
+    //10为障碍物
+    //14为石头，12为石头心，13为石头怪
     private int type;
     public Buttons()
     {
@@ -103,6 +105,12 @@ public class Buttons : Button
                     break;
                 case 5:
                     BackgroundImage = Image.FromFile(pictures.victory);
+                    break;
+                case 10:
+                    BackgroundImage = Image.FromFile(pictures.block);
+                    break;
+                case 14:
+                    BackgroundImage = Image.FromFile(pictures.rock);
                     break;
             }
         }

@@ -25,4 +25,8 @@ public class Pictures
     public string ground = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\土地.png";
     //通关图片
     public string victory = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\face.bmp";
+    //障碍物
+    public string block = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\block.png";
+    //障碍物
+    public string rock = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\rock.jpg";
 }

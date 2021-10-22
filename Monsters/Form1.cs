@@ -51,6 +51,7 @@ namespace Monsters
         private Pictures pictures = new Pictures();
         private Person person = new Person();
         private FindingPath findingpath = new FindingPath();
+        private Map map = new Map();
 
 
 
@@ -237,49 +238,75 @@ namespace Monsters
                     b.Tag = 1;
 
                     //吃心，生命值++
-             //       if (button[person.X, person.Y].Type == 2)
-             //       {
-             //           person.Life++;
-             //           button[person.X, person.Y].Type = 4;
-             //           showPersonLife();
-             //       }
+                    //       if (button[person.X, person.Y].Type == 2)
+                    //       {
+                    //           person.Life++;
+                    //           button[person.X, person.Y].Type = 4;
+                    //           showPersonLife();
+                    //       }
 
 
 
-                            //吃心，生命值++
-                            if (button[person.X+1, person.Y+1].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X+1, person.Y+1].Type = 4;
-                               
-                                showPersonLife();
-                            }
-                            if (button[person.X , person.Y + 1].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X , person.Y + 1].Type = 4;
-                                
-                                showPersonLife();
-                            }
-                            
-                            if (button[person.X +1, person.Y ].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X + 1, person.Y].Type = 4;
-                               
-                                showPersonLife();
-                            }
-                            if (button[person.X , person.Y].Type == 2)
-                             {
-                               person.Life++;
-                              button[person.X, person.Y].Type = 4;
-                              showPersonLife();
-                             }
+                    //吃心，生命值++
+                    if (button[person.X + 1, person.Y + 1].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y + 1].Type = 4;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X, person.Y + 1].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X, person.Y + 1].Type = 4;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X + 1, person.Y].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y].Type = 4;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X, person.Y].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X, person.Y].Type = 4;
+                        showPersonLife();
+                    }
+                    if (button[person.X + 1, person.Y + 1].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y + 1].Type = 14;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X, person.Y + 1].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X, person.Y + 1].Type = 14;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X + 1, person.Y].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y].Type = 14;
+
+                        showPersonLife();
+                    }
+                    if (button[person.X, person.Y].Type == 12)
+                    {
+                        person.Life++;
+                        button[person.X, person.Y].Type = 14;
+                        showPersonLife();
+                    }
 
 
                     getView(person.X, person.Y);
 
-                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person);
+                    //button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person);
 
                     //通关判断
                     if (button[person.X, person.Y].Type == 5)
@@ -393,8 +420,8 @@ namespace Monsters
         }
         private void setObjects()
         {
-            button[0, 0].Type = 1;
             button[row - 1, column - 1].Type = 5;
+            map.getMap(ref button, row, column);
             Random rand = new Random();
             //布心
             for (int i = 0; i < totalhearts; i++)
@@ -406,9 +433,10 @@ namespace Monsters
                 if (button[position_x, position_y].Type == 0)
                 {
                     button[position_x, position_y].Type = 2;
-                   
-
-
+                }
+                else if(button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 12;
                 }
                 else
                     i = i - 1;
@@ -422,6 +450,10 @@ namespace Monsters
                 if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
                 {
                     button[position_x, position_y].Type = 3;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 13;
                 }
                 else
                     i = i - 1;
