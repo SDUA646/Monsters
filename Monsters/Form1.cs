@@ -118,15 +118,16 @@ namespace Monsters
                 findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
                 for (int i = 0; i < visiblemonsters + 1; i++)
                 {
-                    if (monstersX[i] == person.X && monstersY[i] == person.Y)
-                    {
-                        button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
-                        button[localmonstersX[i], localmonstersY[i]].Type = 4;
-                        person.life -= 1;
-                        showPersonLife();
-                    }
-                    else if (button[monstersX[i], monstersY[i]].Type == 4)
-                    {
+                    //if (monstersX[i] == person.X && monstersY[i] == person.Y)
+                    //{
+                    //    button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
+                    //    button[localmonstersX[i], localmonstersY[i]].Type = 4;
+                    //    person.life -= 1;
+                    //    showPersonLife();
+                    //}
+                    //else if (button[monstersX[i], monstersY[i]].Type == 4)
+                        if (button[monstersX[i], monstersY[i]].Type == 4)
+                        {
                         button[monstersX[i], monstersY[i]].BackgroundImage = Image.FromFile(pictures.monsters);
                         button[monstersX[i], monstersY[i]].Type = 3;
                         button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
