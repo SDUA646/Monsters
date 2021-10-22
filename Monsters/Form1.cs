@@ -59,8 +59,7 @@ namespace Monsters
             Program.form1 = this;
             label1.Text = (person.Life).ToString();
 
-            //pictureBox1.Image = Image.FromFile(pictures.hearts);
-            //label1.UseMnemonic = false;
+           
             groupBox1.Location = new Point(26, 40);
             groupBox1.Text = "";
             groupBox1.Size = new System.Drawing.Size(1600, 908);
@@ -185,32 +184,7 @@ namespace Monsters
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             aTimer.Interval = 1000;    //配置文件中配置的秒数
             aTimer.Enabled = true;
-            //判断按下的鼠标键是哪个
-            //switch (e.Button)
-            //{
-            //    //按下鼠标左键
-            //    case MouseButtons.Left:
-
-            //for (int i = 0; i < row; i++)
-            //{
-            //    for (int j = 0; j < column; j++)
-            //        if (button[i, j].Type == 1)
-            //        {
-            //          button[i, j].BackgroundImage = Image.FromFile(pictures.person);
-            //        }
-            //        else if (button[i, j].Type == 2)
-            //        {
-            //            button[i, j].BackgroundImage = Image.FromFile(pictures.hearts);
-            //        }
-            //        else if (button[i, j].Type == 3)
-            //        {
-            //            button[i, j].BackgroundImage = Image.FromFile(pictures.monsters);
-            //        }
-            //        else if (button[i, j].Type == 4)
-            //        {
-            //            button[i, j].BackgroundImage = Image.FromFile(pictures.ground);
-            //        }
-            //}
+      
             if (button[person.X, person.Y].Type == 5)
             {
                 MessageBox.Show("你真牛逼！", "游戏通关");
@@ -234,97 +208,57 @@ namespace Monsters
                 {
                     button[personX, personY].Type = 4;
                     button[personX, personY].BackgroundImage = Image.FromFile(pictures.ground);
-                    b.Tag = 1;
 
                     //吃心，生命值++
-             //       if (button[person.X, person.Y].Type == 2)
-             //       {
-             //           person.Life++;
-             //           button[person.X, person.Y].Type = 4;
-             //           showPersonLife();
-             //       }
-
-
-
-                            //吃心，生命值++
-                            if (button[person.X+1, person.Y+1].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X+1, person.Y+1].Type = 4;
+                    if (button[person.X+1, person.Y+1].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X+1, person.Y+1].Type = 4;
                                
-                                showPersonLife();
-                            }
-                            if (button[person.X , person.Y + 1].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X , person.Y + 1].Type = 4;
+                        showPersonLife();
+                    }
+                    if (button[person.X , person.Y + 1].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X , person.Y + 1].Type = 4;
                                 
-                                showPersonLife();
-                            }
+                        showPersonLife();
+                    }
                             
-                            if (button[person.X +1, person.Y ].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X + 1, person.Y].Type = 4;
+                    if (button[person.X +1, person.Y ].Type == 2)
+                    {
+                        person.Life++;
+                        button[person.X + 1, person.Y].Type = 4;
                                
-                                showPersonLife();
-                            }
-                            if (button[person.X , person.Y].Type == 2)
-                             {
-                               person.Life++;
-                              button[person.X, person.Y].Type = 4;
-                              showPersonLife();
-                             }
+                        showPersonLife();
+                    }
+                    if (button[person.X , person.Y].Type == 2)
+                        {
+                        person.Life++;
+                        button[person.X, person.Y].Type = 4;
+                        showPersonLife();
+                        }
 
-
+                    //开视野，探索地图
                     getView(person.X, person.Y);
 
-                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person);
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1);
+                    button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
+                    button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
+                    button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person3);
+
 
                     //通关判断
-                    if (button[person.X, person.Y].Type == 5)
+                
+                       
+                    if (button[person.X+1, person.Y+1].Type == 5)
                     {
-                        personX = person.X;
-                        personY = person.Y;
-                        if (b.MovePerson(b.X, b.Y, person))
-                        {
-                            button[personX, personY].Type = 4;
-                            button[personX, personY].BackgroundImage = Image.FromFile(pictures.ground);
-                            b.Tag = 1;
-                       //     if (button[person.X, person.Y].Type == 2)
-
-                        //    {
-                        //        person.Life++;
-                        //        button[person.X, person.Y].Type = 4;
-                               
-                        //        showPersonLife();
-                        //    }
-
-                            
-
-
-
-
-                            getView(person.X,person.Y);
-
-                            button[person.X,person.Y].BackgroundImage = Image.FromFile(pictures.person1);
-                            button[person.X+1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
-                            button[person.X, person.Y+1].BackgroundImage = Image.FromFile(pictures.person2);
-                            button[person.X + 1, person.Y+1].BackgroundImage = Image.FromFile(pictures.person3);
-
-                            //通关判断
-                            if (button[person.X+1, person.Y+1].Type == 5)
-
-
-                        
-
-                            {
-                                MessageBox.Show("你真牛逼！", "游戏通关");
-                                over = true;
-                            }
-                            personmoving = true;
-                        }
+                        MessageBox.Show("你真牛逼！", "游戏通关");
+                        over = true;
                     }
+                    personmoving = true;
+                      
+                    
 
                     personmoving = true;
                 }
