@@ -35,7 +35,7 @@ namespace Monsters
         //游戏是否结束
         private bool over = false;
         //生成的行数
-        static  int row = 40;
+        static int row = 40;
         //生成的列数
         static int column = 70;
         //游戏过程中剩余怪的数量
@@ -44,7 +44,7 @@ namespace Monsters
         bool personmoving = false;
         //执行人物移动的函数的定时器
         private static System.Timers.Timer aTimer;
-        
+
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
@@ -52,13 +52,13 @@ namespace Monsters
         private Person person = new Person();
         private FindingPath findingpath = new FindingPath();
 
-       
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
             Program.form1 = this;
             label1.Text = (person.Life).ToString();
-           
+
             //pictureBox1.Image = Image.FromFile(pictures.hearts);
             //label1.UseMnemonic = false;
             groupBox1.Location = new Point(26, 40);
@@ -93,17 +93,17 @@ namespace Monsters
             int[,] terrain = new int[row, column];
             for (int i = 0; i < row; i++)
             {
-                for(int j = 0; j < column; j++)
+                for (int j = 0; j < column; j++)
                 {
-                    if(button[i,j].Type == 3 && (int)button[i,j].Tag == 1)
+                    if (button[i, j].Type == 3 && (int)button[i, j].Tag == 1)
                     {
-                        visiblemonsters ++;
+                        visiblemonsters++;
                         monstersX[visiblemonsters] = i;
                         monstersY[visiblemonsters] = j;
                         localmonstersX[visiblemonsters] = i;
                         localmonstersY[visiblemonsters] = j;
                     }
-                    if((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
+                    if ((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
                     {
                         terrain[i, j] = 1;
                     }
@@ -118,16 +118,15 @@ namespace Monsters
                 findingpath.GetNextPosition(ref monstersX, ref monstersY, visiblemonsters, person.X, person.Y, terrain);
                 for (int i = 0; i < visiblemonsters + 1; i++)
                 {
-                    //if (monstersX[i] == person.X && monstersY[i] == person.Y)
-                    //{
-                    //    button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
-                    //    button[localmonstersX[i], localmonstersY[i]].Type = 4;
-                    //    person.life -= 1;
-                    //    showPersonLife();
-                    //}
-                    //else if (button[monstersX[i], monstersY[i]].Type == 4)
-                        if (button[monstersX[i], monstersY[i]].Type == 4)
-                        {
+                    if (monstersX[i] == person.X && monstersY[i] == person.Y)
+                    {
+                        button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
+                        button[localmonstersX[i], localmonstersY[i]].Type = 4;
+                        person.life -= 1;
+                        showPersonLife();
+                    }
+                    else if (button[monstersX[i], monstersY[i]].Type == 4)
+                    {
                         button[monstersX[i], monstersY[i]].BackgroundImage = Image.FromFile(pictures.monsters);
                         button[monstersX[i], monstersY[i]].Type = 3;
                         button[localmonstersX[i], localmonstersY[i]].BackgroundImage = Image.FromFile(pictures.ground);
@@ -158,14 +157,20 @@ namespace Monsters
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            button[0, 0].BackgroundImage = Image.FromFile(pictures.person);
+            button[0, 0].BackgroundImage = Image.FromFile(pictures.person1);
+            button[1, 0].BackgroundImage = Image.FromFile(pictures.person2);
+            button[0, 1].BackgroundImage = Image.FromFile(pictures.person3);
+            button[1, 1].BackgroundImage = Image.FromFile(pictures.person4);
             button[0, 0].Type = 4;
+            button[0, 1].Type = 4;
+            button[1, 0].Type = 4;
+            button[1, 1].Type = 4;
             getView(0, 0);
         }
 
         Buttons b;
 
-        
+
         private void bt_MouseUp(object sender, MouseEventArgs e)
         {
             //int x, y;
@@ -174,9 +179,9 @@ namespace Monsters
             b = b1;
             //x = b.X;//x代表button数组的第一个索引
             //y = b.Y;//y表示Button数组的第二个索引
-            
+
             //设置计时器，每隔一秒调用一次执行人物移动的函数
-             aTimer = new System.Timers.Timer();
+            aTimer = new System.Timers.Timer();
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             aTimer.Interval = 1000;    //配置文件中配置的秒数
             aTimer.Enabled = true;
@@ -214,7 +219,7 @@ namespace Monsters
 
 
         }
-        public  void OnTimedEvent(object source,ElapsedEventArgs es)
+        public void OnTimedEvent(object source, ElapsedEventArgs es)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
 
@@ -232,12 +237,44 @@ namespace Monsters
                     b.Tag = 1;
 
                     //吃心，生命值++
-                    if (button[person.X, person.Y].Type == 2)
-                    {
-                        person.Life++;
-                        button[person.X, person.Y].Type = 4;
-                        showPersonLife();
-                    }
+             //       if (button[person.X, person.Y].Type == 2)
+             //       {
+             //           person.Life++;
+             //           button[person.X, person.Y].Type = 4;
+             //           showPersonLife();
+             //       }
+
+
+
+                            //吃心，生命值++
+                            if (button[person.X+1, person.Y+1].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X+1, person.Y+1].Type = 4;
+                               
+                                showPersonLife();
+                            }
+                            if (button[person.X , person.Y + 1].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X , person.Y + 1].Type = 4;
+                                
+                                showPersonLife();
+                            }
+                            
+                            if (button[person.X +1, person.Y ].Type == 2)
+                            {
+                                person.Life++;
+                                button[person.X + 1, person.Y].Type = 4;
+                               
+                                showPersonLife();
+                            }
+                            if (button[person.X , person.Y].Type == 2)
+                             {
+                               person.Life++;
+                              button[person.X, person.Y].Type = 4;
+                              showPersonLife();
+                             }
 
 
                     getView(person.X, person.Y);
@@ -252,20 +289,35 @@ namespace Monsters
                         if (b.MovePerson(b.X, b.Y, person))
                         {
                             button[personX, personY].Type = 4;
-                            button[personX ,personY].BackgroundImage = Image.FromFile(pictures.ground);
+                            button[personX, personY].BackgroundImage = Image.FromFile(pictures.ground);
                             b.Tag = 1;
-                            if (button[person.X, person.Y].Type == 2)
-                            {
-                                person.Life++;
-                                button[person.X, person.Y].Type = 4;
-                                showPersonLife();
-                            }
+                       //     if (button[person.X, person.Y].Type == 2)
+
+                        //    {
+                        //        person.Life++;
+                        //        button[person.X, person.Y].Type = 4;
+                               
+                        //        showPersonLife();
+                        //    }
+
                             
-                           
-                            getView(b.X,b.Y);
-                            b.BackgroundImage = Image.FromFile(pictures.person);
-                            b.Type = 1;
-                            if (button[b.X, b.Y].Type == 5)
+
+
+
+
+                            getView(person.X,person.Y);
+
+                            button[person.X,person.Y].BackgroundImage = Image.FromFile(pictures.person1);
+                            button[person.X+1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
+                            button[person.X, person.Y+1].BackgroundImage = Image.FromFile(pictures.person2);
+                            button[person.X + 1, person.Y+1].BackgroundImage = Image.FromFile(pictures.person3);
+
+                            //通关判断
+                            if (button[person.X+1, person.Y+1].Type == 5)
+
+
+                        
+
                             {
                                 MessageBox.Show("你真牛逼！", "游戏通关");
                                 over = true;
@@ -280,38 +332,38 @@ namespace Monsters
         }
 
         //开视野
-        private void getView(int x,int y)
+        private void getView(int x, int y)
         {
             //8格视野
             getImage(x - 1, y - 1);
             getImage(x - 1, y);
             getImage(x - 1, y + 1);
-            getImage(x , y - 1);
-            getImage(x , y + 1);
+            getImage(x, y - 1);
+            getImage(x, y + 1);
             getImage(x + 1, y - 1);
             getImage(x + 1, y);
             getImage(x + 1, y + 1);
 
             //+12格视野
             getImage(x - 1, y - 2);
-            getImage(x , y - 2);
-            getImage(x , y - 3);
+            getImage(x, y - 2);
+            getImage(x, y - 3);
             getImage(x + 1, y - 2);
 
             getImage(x - 1, y + 2);
-            getImage(x , y + 2);
-            getImage(x , y + 3);
+            getImage(x, y + 2);
+            getImage(x, y + 3);
             getImage(x + 1, y + 2);
 
-            getImage(x - 2, y -1);
-            getImage(x - 2, y );
-            getImage(x - 3, y );
+            getImage(x - 2, y - 1);
+            getImage(x - 2, y);
+            getImage(x - 3, y);
             getImage(x - 2, y + 1);
 
             getImage(x + 2, y - 1);
-            getImage(x + 2, y );
-            getImage(x + 3, y );
-            getImage(x + 2, y +1);
+            getImage(x + 2, y);
+            getImage(x + 3, y);
+            getImage(x + 2, y + 1);
 
             //+4视野
             getImage(x - 2, y - 2);
@@ -321,38 +373,42 @@ namespace Monsters
 
         }
 
-        private void getImage(int x,int y)
-        {          
-            if(x >= 0 && y >= 0 && x <row && y <column)
+        private void getImage(int x, int y)
+        {
+            if (x >= 0 && y >= 0 && x < row && y < column)
             {
                 button[x, y].Tag = 1;
                 button[x, y].showImage();
 
             }
-            
+
         }
 
-       
+
 
         private void showPersonLife()
         {
             label1.Text = (person.life).ToString();
-          
+
         }
         private void setObjects()
         {
             button[0, 0].Type = 1;
-            button[row-1,column-1].Type = 5;
+            button[row - 1, column - 1].Type = 5;
             Random rand = new Random();
             //布心
             for (int i = 0; i < totalhearts; i++)
             {
 
-                int position_x = rand.Next(row);
-                int position_y = rand.Next(column);
+                int position_x = rand.Next(row-1);
+                int position_y = rand.Next(column-1);
+               
                 if (button[position_x, position_y].Type == 0)
                 {
                     button[position_x, position_y].Type = 2;
+                   
+
+
                 }
                 else
                     i = i - 1;
@@ -371,11 +427,11 @@ namespace Monsters
                     i = i - 1;
             }
 
-            for(int i = 0;i < row; i++)
+            for (int i = 0; i < row; i++)
             {
-                for(int j = 0; j < column; j++)
+                for (int j = 0; j < column; j++)
                 {
-                    if(button[i,j].Type == 0)
+                    if (button[i, j].Type == 0)
                     {
                         button[i, j].Type = 4;
                     }
@@ -390,7 +446,7 @@ namespace Monsters
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
     }
