@@ -11,7 +11,7 @@ public class Buttons : Button
     private int y;
     private Pictures pictures = new Pictures();
     //记录该个控件下的object，0为空，1为人
-    //2为心，3为怪
+    //2为心，3为怪，4为地，5为终点
     private int type;
     public Buttons()
     {
@@ -67,12 +67,12 @@ public class Buttons : Button
             success = true;
 
         }
-        else if(( x <= 0 && y > 0 && -x >=  y)|| (x < 0 && y < 0 && x <= y))
+        else if(( x <= 0 && y > 0 && -x >=  y)|| (x < 0 && y <=0 && x <= y))
         {
             person.Move(person.X - 1, person.Y);
             success = true;
         }
-        else if ((x > 0 && y <= 0 && x < -y)|| (x < 0 && y <= 0 && x > y))
+        else if ((x > 0 && y <= 0 && x < -y)|| (x <= 0 && y <= 0 && x > y))
         {
             person.Move(person.X, person.Y -1 );
             success = true;
