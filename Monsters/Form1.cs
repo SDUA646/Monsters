@@ -23,11 +23,13 @@ namespace Monsters
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         //计时器2,怪物
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
-   
+        
         //定义怪数
-        private int totalmonsters = 150;
+        private int totalmonsters = 15;
         //定义心数
-        private int totalhearts = 50;
+        private int totalhearts = 400;
+        //定义加速器的数量
+        private int boosters = 20;
         //游戏是否结束
         private bool over = false;
         //生成的行数
@@ -42,7 +44,8 @@ namespace Monsters
         int monstertime = 0;
         //
         int persontime = 0;
-
+        //
+        int speedTime = 0;
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
@@ -149,29 +152,54 @@ namespace Monsters
         public void OnTimedEvent(object source, ElapsedEventArgs es)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
+           
+            if(person.Speed==0)
+            {
+                if (persontime == 9)
+                {
+                    personmoving = false;
+                    persontime = 0;
+                }
+                else
+                {
+                    persontime++;
+                }
+            }
+            if(person.Speed > 0)
+            {
+                if (persontime == 4)
+                {
+                    personmoving = false;
+                    persontime = 0;
+                    speedTime++;
+                    if(speedTime%10==0)
+                    {
+                        person.Speed--;
+                    }
+                }
+                else
+                {
+                    persontime++;
+                }
+            }
 
-            if (persontime == 9)
-            {
-                personmoving = false;
-                persontime = 0;
-            }
-            else
-            {
-                persontime++;
-            }
             monsterMoving();
             if (!personmoving)
               {
-                    //游戏通关，停止运行
-                    if(over == true)
-                    {
-                        MessageBox.Show("你真牛逼！", "游戏通关");
-                        this.Dispose();
-                        this.Close();
+                //游戏通关，停止运行
 
-                    }
-                   
-                    if (b.MovePerson(b.X, b.Y, person))
+                //if(over == true)
+                //{
+                //    MessageBox.Show("你真牛逼！,游戏通关");
+                //    aTimer.Enabled = false;
+                //    timer.Enabled = false;
+                //    timerM.Enabled = false;
+                //    this.Dispose();
+                //    this.Close();
+
+                //}
+                
+                    if (b.MovePerson(b.X, b.Y, person,button))
                     {
                     if (person.X == row - 1)
                         person.X -= 1;
@@ -181,7 +209,8 @@ namespace Monsters
 
                     checkHearts(person.X, person.Y);
 
-
+                    //得到加速器，speed++
+                    checkSpeed(person.X, person.Y);
 
                     //开视野，探索地图
                     getView(person.X, person.Y);
@@ -199,6 +228,7 @@ namespace Monsters
                     if (button[person.X, person.Y].Type == 5)
                     {                    
                         over = true;
+                        Checkwin();
                     }
                     personmoving = true;
                 }
@@ -212,32 +242,32 @@ namespace Monsters
             if (button[x + 1, y + 1].Type == 2)
             {
                 person.Life++;
-                button[x + 1, y].Type = 4;
+                button[x + 1, y+1].Type = 4;
 
                 showPersonLife();
             }
-            if (button[x, y].Type == 2)
-            {
-                person.Life++;
-                button[x, y + 1].Type = 4;
-
-                showPersonLife();
-            }
-
-            if (button[x + 1, y].Type == 2)
+             if (button[x + 1, y].Type == 2)
             {
                 person.Life++;
                 button[x + 1, y].Type = 4;
 
                 showPersonLife();
             }
+
+            if (button[x , y+1].Type == 2)
+            {
+                person.Life++;
+                button[x , y+1].Type = 4;
+
+                showPersonLife();
+            }
             if (button[x, y].Type == 2)
             {
                 person.Life++;
-                button[person.X, person.Y].Type = 4;
+                button[x, y].Type = 4;
                 showPersonLife();
             }
-            if (button[x + 1, person.Y + 1].Type == 12)
+            if (button[x + 1,y + 1].Type == 12)
             {
                 person.Life++;
                 button[x + 1, y + 1].Type = 14;
@@ -259,15 +289,38 @@ namespace Monsters
 
                 showPersonLife();
             }
-            if (button[x, y].Type == 12)
+             if (button[x, y].Type == 12)
             {
                 person.Life++;
                 button[x, y].Type = 14;
                 showPersonLife();
             }
+            
         }
 
-    
+        public void checkSpeed(int x,int y)
+        {
+            if(button[x,y].Type==6)
+            {
+                person.Speed++;
+                button[x, y].Type = 4;
+            }
+            if (button[x+1, y].Type == 6)
+            {
+                person.Speed++;
+                button[x+1, y].Type = 4;
+            }
+            if (button[x, y+1].Type == 6)
+            {
+                person.Speed++;
+                button[x, y+1].Type = 4;
+            }
+            if (button[x+1, y+1].Type == 6)
+            {
+                person.Speed++;
+                button[x + 1, y + 1].Type = 4;
+            }
+        }
 
         //开视野，10/22，新调视野
         private void getView(int x, int y)
@@ -318,7 +371,7 @@ namespace Monsters
         private void showPersonLife()
         {
             label1.Text = (person.life).ToString();
-
+            fail();
         }
 
         private void monsterMoving()
@@ -415,6 +468,21 @@ namespace Monsters
                 else
                     i = i - 1;
             }
+            //布加速器
+            for (int i = 0; i < boosters; i++)
+            {
+
+                int position_x = rand.Next(row - 1);
+                int position_y = rand.Next(column - 1);
+
+                if (button[position_x, position_y].Type == 0)
+                {
+                    button[position_x, position_y].Type = 6;
+                }
+                
+                else
+                    i = i - 1;
+            }
             //布雷
             for (int i = 0; i < totalmonsters; i++)
             {
@@ -445,12 +513,26 @@ namespace Monsters
             }
         }
 
-   
-
-        private void label1_TextChanged(object sender, EventArgs e)
+        private void Checkwin()
         {
-            if(int.Parse(label1.Text) <= 0)
+            if (over == true)
             {
+                MessageBox.Show("你真牛逼！,游戏通关");
+                aTimer.Stop();
+                timer.Stop();
+                timerM.Stop();
+                this.Dispose();
+                this.Close();
+                 
+            }
+        }
+
+      // private void label1_TextChanged(object sender, EventArgs e)
+       private void fail()
+        {
+            if(person.Life <= 0)
+            {
+               
                 aTimer.Stop();
 
                 MessageBox.Show("gg");

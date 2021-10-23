@@ -5,6 +5,7 @@ public class Person
     public int life = 5;
     private int x;
     private int y;
+    private int speed=0;
     public int Life
     {
         get
@@ -26,6 +27,14 @@ public class Person
         set
         { y = value; }
     }
+    public int Speed
+    {
+        get
+        { return speed; }
+        set
+        { speed = value; }
+    }
+
 
     public void Move(int x, int y)
     {

@@ -12,10 +12,11 @@ public class Buttons : Button
     private Pictures pictures = new Pictures();
     private int moveonterrain = 0;
     //记录该个控件下的object，0为空，1为人
-    //2为心，3为怪，4为地，5为终点
+    //2为心，3为怪，4为地，5为终点，6为加速器
     //10为障碍物
     //14为石头，12为石头心，13为石头怪
     private int type;
+    FindingPath findingpath = new FindingPath();
     public Buttons()
     {
         Tag = 0;     ///0表示未翻开，1表示翻开
@@ -50,33 +51,46 @@ public class Buttons : Button
         { type = value; }
     }
 
-    public bool MovePerson(int mouseX, int mouseY, Person person)//传入新的坐标
+    public bool MovePerson(int mouseX, int mouseY, Person person, Buttons[,] button)//传入新的坐标
     {
       
         bool success = false;
         
-
+        
         int x = mouseX - person.X, y = mouseY - person.Y;
         if((x > 0 && y >= 0 && x >= y)||(x > 0 && y < 0 && x >= - y))
         {
-            person.Move(person.X + 1, person.Y);
-            success = true;
+            
+            if (button[person.X + 2, person.Y].Type!=10 && button[person.X + 2, person.Y+1].Type != 10 && findingpath.canMove(button[person.X + 1, person.Y]))
+            {
+                person.Move(person.X + 1, person.Y);
+                success = true;
+            }
+           
         }
         else if(( x >= 0 && y > 0 && x < y)||(x < 0 && y >= 0 && y >= -x))
         {
-            person.Move(person.X, person.Y + 1);
-            success = true;
-
+            if (button[person.X , person.Y+2].Type != 10 && button[person.X+1, person.Y + 2].Type != 10 && findingpath.canMove(button[person.X , person.Y+1]))
+            {
+                person.Move(person.X, person.Y + 1);
+                success = true;
+            }
         }
         else if(( x <= 0 && y > 0 && -x >=  y)|| (x < 0 && y <=0 && x <= y))
         {
-            person.Move(person.X - 1, person.Y);
-            success = true;
+            if (button[person.X - 1, person.Y].Type != 10 && button[person.X - 1, person.Y+1].Type != 10 && findingpath.canMove(button[person.X - 1, person.Y]))
+            {
+                person.Move(person.X - 1, person.Y);
+                success = true;
+            }
         }
         else if ((x > 0 && y <= 0 && x < -y)|| (x <= 0 && y <= 0 && x > y))
         {
-            person.Move(person.X, person.Y -1 );
-            success = true;
+            if (button[person.X , person.Y-1].Type != 10 && button[person.X+1, person.Y - 1].Type != 10 && findingpath.canMove(button[person.X , person.Y-1]))
+            {
+                person.Move(person.X, person.Y - 1);
+                success = true;
+            }
         }
         return success;
 
@@ -106,6 +120,9 @@ public class Buttons : Button
                     break;
                 case 5:
                     BackgroundImage = Image.FromFile(pictures.victory);
+                    break;
+                case 6:
+                    BackgroundImage = Image.FromFile(pictures.booster);
                     break;
                 case 10:
                     BackgroundImage = Image.FromFile(pictures.block);

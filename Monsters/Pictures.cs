@@ -29,4 +29,6 @@ public class Pictures
     public string block = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\block.png";
     //障碍物
     public string rock = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\rock.jpg";
+    //加速器
+    public string booster= System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\booster.jpg";
 }

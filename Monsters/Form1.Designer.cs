@@ -72,7 +72,7 @@ namespace Monsters
             this.label1.TabIndex = 9;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.TextChanged += new System.EventHandler(this.label1_TextChanged);
+           // this.label1.TextChanged += new System.EventHandler(this.label1_TextChanged);
             // 
             // button1
             // 
