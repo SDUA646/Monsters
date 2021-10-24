@@ -30,6 +30,14 @@ namespace Monsters
         private int totalhearts = 40;
         //定义加速器的数量
         private int boosters = 20;
+        //定义钥匙的数量
+        private int keyNum = 1;
+        //定义游戏所用时间     
+        private int millisecond = 0;
+        private int second = 0;
+        private int minute = 0;
+        //定义分数
+        private double score=0;
         //游戏是否结束
         private bool over = false;
         //生成的行数
@@ -40,6 +48,7 @@ namespace Monsters
         bool personmoving = false;
         //执行人物移动的函数的定时器
         private static System.Timers.Timer aTimer;
+       
         //
         int monstertime = -1;
         //
@@ -65,7 +74,7 @@ namespace Monsters
         {
             
             label1.Text = (person.Life).ToString();
-           
+            label2.Text = minute.ToString() + " 分" + second.ToString() + " 秒";
             groupBox1.Location = new Point(26, 40);
             groupBox1.Text = "";
             groupBox1.Size = new System.Drawing.Size(1600, 908);
@@ -78,6 +87,8 @@ namespace Monsters
             timer.Stop();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = 10;
+            
+            
 
             //设置计时器，每隔一秒调用一次执行人物移动的函数
             aTimer = new System.Timers.Timer();
@@ -88,7 +99,7 @@ namespace Monsters
             b = button[0, 0];
             findingpath.initFindingPath(row, column);
         }
-
+        
         private void timer_Tick(object sender, EventArgs e)
         {
             //展示新的人物形象
@@ -96,6 +107,24 @@ namespace Monsters
             button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
             button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
             button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person3);
+           //输出时钟计时，且每隔一段时间开一个随即视野
+            millisecond++;
+            if (millisecond % 65 == 0)
+            {
+                second++;
+                if(second%10==0)
+                {
+                    RandView();
+                }
+                if(second>=60)
+                {
+                    second = 0;
+                    minute++;
+
+                }
+            }
+            label2.Text = minute.ToString() + " 分" + second.ToString() + " 秒";
+              
         }
         //生成地图
         private void groundField()
@@ -207,6 +236,9 @@ namespace Monsters
                     //得到加速器，speed++
                     checkSpeed(person.X, person.Y);
 
+                    //得到钥匙  haveKey++
+                    checkKey(person.X, person.Y);
+
                     //开视野，探索地图
                     getView(person.X, person.Y);
 
@@ -220,7 +252,7 @@ namespace Monsters
                     //通关判断
 
 
-                    if (button[person.X, person.Y].Type == 5)
+                    if (button[person.X, person.Y].Type == 5 && person.HaveKey>0)
                     {                    
                         over = true;
                         Checkwin();
@@ -293,7 +325,7 @@ namespace Monsters
             }
             
         }
-
+        //得到加速器的函数，检测按钮的type，如果是加速器，speed++
         public void checkSpeed(int x,int y)
         {
             if(button[x,y].Type==6)
@@ -317,7 +349,58 @@ namespace Monsters
                 button[x + 1, y + 1].Type = 4;
             }
         }
+        //得到钥匙的函数，检测按钮的type，如果是钥匙，haveKey++
+        public void checkKey(int x,int y)
+        {
+            if (button[x, y].Type == 7)
+            {
+                person.HaveKey++;
+                button[x, y].Type = 4;
+            }
+            if (button[x + 1, y].Type == 7)
+            {
+                person.HaveKey++;
+                button[x + 1, y].Type = 4;
+            }
+            if (button[x, y + 1].Type == 7)
+            {
+                person.HaveKey++;
+                button[x, y + 1].Type = 4;
+            }
+            if (button[x + 1, y + 1].Type == 7)
+            {
+                person.HaveKey++;
+                button[x + 1, y + 1].Type = 4;
+            }
+            if (button[x, y].Type == 11)
+            {
+                person.HaveKey++;
+                button[x, y].Type = 14;
+            }
+            if (button[x + 1, y].Type == 11)
+            {
+                person.HaveKey++;
+                button[x + 1, y].Type = 14;
+            }
+            if (button[x, y + 1].Type == 11)
+            {
+                person.HaveKey++;
+                button[x, y + 1].Type = 14;
+            }
+            if (button[x + 1, y + 1].Type == 11)
+            {
+                person.HaveKey++;
+                button[x + 1, y + 1].Type = 14;
+            }
+        }
         //随机视野
+        private void RandView()
+        {
+            Random rand1 = new Random();
+            int position_x = rand1.Next(row - 1);
+            int position_y = rand1.Next(column - 1);
+            getRandView(position_x, position_y);
+        }
         private void getRandView(int x,int y)
         {
             getImage(x,y);
@@ -525,6 +608,23 @@ namespace Monsters
                 else
                     i = i - 1;
             }
+            //布钥匙
+            for(int i=0;i<keyNum;i++)
+            {
+                int position_x = rand.Next(row - 1);
+                int position_y = rand.Next(column - 1);
+
+                if (button[position_x, position_y].Type == 0)
+                {
+                    button[position_x, position_y].Type = 7;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 11;
+                }
+                else
+                    i = i - 1;
+            }
             //布加速器
             for (int i = 0; i < boosters; i++)
             {
@@ -607,17 +707,37 @@ namespace Monsters
             {
                
                 aTimer.Stop();
-             
+                timer.Stop();
                 timerM.Stop();
+                //输出分数
+                double degree = Exploration();
+                score = 60 * degree;
+                score = Math.Round(score, 0);
 
-                MessageBox.Show("gg");
-               
+                MessageBox.Show("你被怪物夺取了所有的心脏！！！");
+                MessageBox.Show("你探索了" + degree * 100 + "%的地图");
+                MessageBox.Show("你的分数是" + score);
+              
+
                 this.Dispose();
                
                 this.Close();
             }
         }
-
+        //返回地图探索度的函数
+        private double Exploration()
+        {
+            double sumTag=0;
+            double sumButton = row * column;
+            double degree=0;
+            for (int i = 0; i < row - 1; i++)
+                for (int j = 0; j < column; j++)
+                    if ((int)button[i, j].Tag==1)
+                        sumTag++;
+            degree = sumTag / sumButton;
+            degree = Math.Round(degree, 2);
+            return degree;
+        }
         private void esc_Click(object sender, EventArgs e)
         {
             aTimer.Stop();
