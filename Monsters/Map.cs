@@ -144,7 +144,7 @@ public class Map
 
 					if (i >= 19 && i <= 26) buttons[i, j].Type = 10;
 				}
-				for (int j = 48, i = 0; i < 40; i++)
+				for (int j = 61, i = 0; i < 40; i++)
 				{
 					if (i >= 0 && i <= 13) buttons[i, j].Type = 10;
 					if (i >= 26 && i <= 33) buttons[i, j].Type = 10;

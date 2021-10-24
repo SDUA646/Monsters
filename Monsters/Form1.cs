@@ -27,7 +27,7 @@ namespace Monsters
         //定义怪数
         private int totalmonsters = 40;
         //定义心数
-        private int totalhearts = 80;
+        private int totalhearts = 73;
         //定义加速器的数量
         private int boosters = 20;
         //定义钥匙的数量
@@ -223,7 +223,7 @@ namespace Monsters
               {
                
                 
-                    if (b.MovePerson(b.X, b.Y, person,button))
+                    if (b.MovePerson(b.X, b.Y, person,button,row,column))
                     {
                     if (person.X == row - 1)
                         person.X -= 1;
@@ -508,13 +508,13 @@ namespace Monsters
 
         private void monstersMoving()
         {
-            oneMonsterMoving(3, 13, 0, 1);
-            oneMonsterMoving(8, 18, 1, 3);
+            oneMonsterMoving(3, 13, 0, 1, 2);
+            oneMonsterMoving(8, 18, 1, 3, 1);
 
             monstertime++;
             hulktime++;
         }
-        private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt)
+        private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt, int rock)
         {
             if ((monstertime == 5 & monstertype == 0) || (hulktime == 13 && monstertype == 1))
             {
@@ -542,7 +542,7 @@ namespace Monsters
                         }
                         else if ((button[i, j].Type == 14 && (int)button[i, j].Tag == 1) || (button[i, j].Type == type1 && (int)button[i, j].Tag == 1))
                         {
-                            terrain[i, j] = 2;
+                            terrain[i, j] = rock;
                         }
                         else
                         {
