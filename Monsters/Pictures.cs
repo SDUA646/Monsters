@@ -13,7 +13,10 @@ public class Pictures
     //定义爆炸声音
     public string shengyin = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\爆炸声.wav";
     //定义怪1
-    public string monsters = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\怪.png";
+    public string monsters1 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\怪.png";
+    public string monsters2 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\怪2.png";
+    public string monsters01 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\水上的怪1.png";
+    public string monsters02 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\水上的怪2.png";
     //定义右键单击时，标记旗子图片的路径
     public string hearts = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\hearts.bmp";
     //地雷图片位置
@@ -28,7 +31,7 @@ public class Pictures
     //障碍物
     public string block = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\block.png";
     //障碍物
-    public string rock = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\rock.jpg";
+    public string rock = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\水.png";
     //加速器
     public string booster= System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\booster.jpg";
     //钥匙
