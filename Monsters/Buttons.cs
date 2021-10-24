@@ -61,43 +61,50 @@ public class Buttons : Button
         if((x > 0 && y >= 0 && x >= y)||(x > 0 && y < 0 && x >= - y))
         {
             
-            if (button[person.X + 2, person.Y].Type!=10 && button[person.X + 2, person.Y+1].Type != 10 && findingpath.canMove(button[person.X + 1, person.Y]))
+            if (button[person.X + 2, person.Y].Type!=10 && button[person.X + 2, person.Y+1].Type != 10)
             {
-                person.Move(person.X + 1, person.Y);
-                success = true;
+                if (findingpath.canMove(button[person.X + 1, person.Y]))
+                {
+                    person.Move(person.X + 1, person.Y);
+                    success = true;
+                }
             }
-           
         }
         else if(( x >= 0 && y > 0 && x < y)||(x < 0 && y >= 0 && y >= -x))
         {
-            if (button[person.X , person.Y+2].Type != 10 && button[person.X+1, person.Y + 2].Type != 10 && findingpath.canMove(button[person.X , person.Y+1]))
+            if (button[person.X , person.Y+2].Type != 10 && button[person.X+1, person.Y + 2].Type != 10)
             {
-                person.Move(person.X, person.Y + 1);
-                success = true;
+                if (findingpath.canMove(button[person.X, person.Y + 1]))
+                {
+                    person.Move(person.X, person.Y + 1);
+                    success = true;
+                }
+
             }
         }
         else if(( x <= 0 && y > 0 && -x >=  y)|| (x < 0 && y <=0 && x <= y))
         {
-            if (button[person.X - 1, person.Y].Type != 10 && button[person.X - 1, person.Y+1].Type != 10 && findingpath.canMove(button[person.X - 1, person.Y]))
+            if (button[person.X - 1, person.Y].Type != 10 && button[person.X - 1, person.Y+1].Type != 10)
             {
-                person.Move(person.X - 1, person.Y);
-                success = true;
+                if (findingpath.canMove(button[person.X - 1, person.Y]))
+                {
+                    person.Move(person.X - 1, person.Y);
+                    success = true;
+                }
             }
         }
         else if ((x > 0 && y <= 0 && x < -y)|| (x <= 0 && y <= 0 && x > y))
         {
-            if (button[person.X , person.Y-1].Type != 10 && button[person.X+1, person.Y - 1].Type != 10 && findingpath.canMove(button[person.X , person.Y-1]))
+            if (button[person.X , person.Y-1].Type != 10 && button[person.X+1, person.Y - 1].Type != 10)
             {
-                person.Move(person.X, person.Y - 1);
-                success = true;
+                if (findingpath.canMove(button[person.X, person.Y - 1]))
+                {
+                    person.Move(person.X, person.Y - 1);
+                    success = true;
+                }
             }
         }
         return success;
-
-    }
-
-    public void MoveMonsters(ref int x, ref int y, Person person)
-    {
 
     }
 

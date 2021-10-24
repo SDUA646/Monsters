@@ -25,7 +25,7 @@ namespace Monsters
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
         
         //定义怪数
-        private int totalmonsters = 15;
+        private int totalmonsters = 0;
         //定义心数
         private int totalhearts = 400;
         //定义加速器的数量
@@ -185,7 +185,8 @@ namespace Monsters
 
             monsterMoving();
             if (!personmoving)
-              {
+            {
+                Control.CheckForIllegalCrossThreadCalls = false;
                 //游戏通关，停止运行
 
                 //if(over == true)
@@ -198,8 +199,8 @@ namespace Monsters
                 //    this.Close();
 
                 //}
-                
-                    if (b.MovePerson(b.X, b.Y, person,button))
+
+                if (b.MovePerson(b.X, b.Y, person, button))
                     {
                     if (person.X == row - 1)
                         person.X -= 1;
@@ -230,8 +231,9 @@ namespace Monsters
                         over = true;
                         Checkwin();
                     }
-                    personmoving = true;
+                    
                 }
+                personmoving = true;
             }
             
         }
