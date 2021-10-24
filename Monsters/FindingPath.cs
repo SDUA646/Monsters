@@ -137,22 +137,22 @@ public class FindingPath
         switch (button.Type)
         {
             case 3:
-                button.BackgroundImage = Image.FromFile(pictures.monsters);
+                button.BackgroundImage = Image.FromFile(pictures.monsters1);
                 break;
             case 4:
                 button.BackgroundImage = Image.FromFile(pictures.ground);
                 break;
             case 8:
-                button.BackgroundImage = Image.FromFile(pictures.hulk);
+                button.BackgroundImage = Image.FromFile(pictures.monsters2);
                 break;
             case 13:
-                button.BackgroundImage = Image.FromFile(pictures.monsters);
+                button.BackgroundImage = Image.FromFile(pictures.monsters01);
                 break;
             case 14:
                 button.BackgroundImage = Image.FromFile(pictures.rock);
                 break;
             case 18:
-                button.BackgroundImage = Image.FromFile(pictures.hulk);
+                button.BackgroundImage = Image.FromFile(pictures.monsters02);
                 break;
         }
     }

@@ -119,8 +119,10 @@ public class Buttons : Button
                     BackgroundImage = Image.FromFile(pictures.hearts);
                     break;
                 case 13:
+                    BackgroundImage = Image.FromFile(pictures.monsters01);
+                    break;
                 case 3:
-                    BackgroundImage = Image.FromFile(pictures.monsters);
+                    BackgroundImage = Image.FromFile(pictures.monsters1);
                     break;
                 case 4:
                     BackgroundImage = Image.FromFile(pictures.ground);
@@ -136,8 +138,10 @@ public class Buttons : Button
                     break;
 
                 case 8:
+                    BackgroundImage = Image.FromFile(pictures.monsters2);
+                    break;
                 case 18:
-                    BackgroundImage = Image.FromFile(pictures.hulk);
+                    BackgroundImage = Image.FromFile(pictures.monsters02);
                     break;
                 case 10:
                     BackgroundImage = Image.FromFile(pictures.block);

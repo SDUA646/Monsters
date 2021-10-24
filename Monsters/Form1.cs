@@ -36,8 +36,7 @@ namespace Monsters
         private int millisecond = 0;
         private int second = 0;
         private int minute = 0;
-        //定义分数
-        private double score=0;
+        
         //游戏是否结束
         private bool over = false;
         //生成的行数
@@ -171,6 +170,8 @@ namespace Monsters
             getView(0, 0);
             getRandView(row - 2, column - 2);
             button1.Enabled = false;
+            button2.Enabled = false;
+            button3.Enabled = false;
         }
 
         
@@ -588,6 +589,10 @@ namespace Monsters
         {
 
             button[row - 2, column - 2].Type = 5;
+            button[row - 1, column - 2].Type = 5;
+            button[row - 2, column - 1].Type = 5;
+            button[row - 1, column - 1].Type = 5;
+
             map.getMap(ref button);
             Random rand = new Random();
             for (int i = 0; i < totalhulks; i++)
@@ -693,9 +698,12 @@ namespace Monsters
                 timerM.Stop();
 
                 double degree = Exploration(out int score);
+                degree *= 100;
                 score =score + (int)row * column / 2 + person.life * 10;
+                button4.Enabled = false;
+                button5.Enabled = false;
                 MessageBox.Show("真是幸运的一天。你的得分是" + score  + "。你的探索度是" + degree + "%。");
-               
+                
                
                 this.Dispose();
                 this.Close();
@@ -714,8 +722,10 @@ namespace Monsters
                 timerM.Stop();
                 //输出分数
                 double degree = Exploration(out int score);
-                
-                
+                button4.Enabled = false;
+                button5.Enabled = false;
+
+
                 MessageBox.Show("你被怪物夺取了所有的心脏！！！");
                 MessageBox.Show("你探索了" + degree * 100 + "%的地图。" + "你的分数是" + score + "。" );
 
@@ -744,8 +754,54 @@ namespace Monsters
             aTimer.Stop();
             timer.Stop();
             timerM.Stop();
+
+            button4.Enabled = false;
+            button5.Enabled = false;
+
+            double degree = Exploration(out int score);
+            MessageBox.Show("你探索了" + degree * 100 + "%的地图。" + "你的分数是" + score + "。");
+
             this.Dispose();
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            
+            if(aTimer.Interval > 80)
+            {
+                string speed = "速度：";
+                aTimer.Interval -= 10;
+                double s = 15 - aTimer.Interval / 10;
+                speed += s.ToString();
+                label3.Text = speed;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (aTimer.Interval < 120)
+            {
+                string speed = "速度：";
+                aTimer.Interval += 10;
+                double s = 15- aTimer.Interval / 10;
+                speed += s.ToString();
+                label3.Text = speed;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            timer.Stop();
+            aTimer.Stop();
+            timerM.Stop();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            timer.Start();
+            aTimer.Start();
+            timerM.Start();
         }
     }
 }
