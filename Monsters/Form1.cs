@@ -493,7 +493,7 @@ namespace Monsters
         {
 
             button[row - 2, column - 2].Type = 5;
-            map.getMap(ref button, row, column);
+            map.getMap(ref button);
             Random rand = new Random();
             //布心
             for (int i = 0; i < totalhearts; i++)
