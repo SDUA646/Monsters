@@ -426,14 +426,14 @@ namespace Monsters
         private void monstersMoving()
         {
             oneMonsterMoving(3, 13, 0, 1);
-            oneMonsterMoving(7, 17, 1, 3);
+            oneMonsterMoving(8, 18, 1, 3);
 
             monstertime++;
             hulktime++;
         }
         private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt)
         {
-            if (monstertime == 6 || hulktime == 13)
+            if (monstertime == 6 || hulktime == 17)
             {
                 int[] monstersX = new int[50];
                 int[] monstersY = new int[50];
@@ -564,11 +564,11 @@ namespace Monsters
                 int position_y = rand.Next(column);
                 if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
                 {
-                    button[position_x, position_y].Type = 7;
+                    button[position_x, position_y].Type = 8;
                 }
                 else if (button[position_x, position_y].Type == 14)
                 {
-                    button[position_x, position_y].Type = 17;
+                    button[position_x, position_y].Type = 18;
                 }
                 else
                     i = i - 1;

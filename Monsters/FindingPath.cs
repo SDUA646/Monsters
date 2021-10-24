@@ -117,9 +117,9 @@ public class FindingPath
                 else if (button.Type == 14 && monstertype == 0)
                     button.Type = 13;
                 else if (button.Type == 4 && monstertype == 1)
-                    button.Type = 7;
+                    button.Type = 8;
                 else if (button.Type == 14 && monstertype == 1)
-                    button.Type = 17;
+                    button.Type = 18;
                 break;
             case Transtype.groundtoground:
                 if (button.Type == 4)
@@ -128,9 +128,9 @@ public class FindingPath
                     button.Type = 14;
                 break;
             case Transtype.monstertoground:
-                if (button.Type == 3 || button.Type == 7)
+                if (button.Type == 3 || button.Type == 8)
                     button.Type = 4;
-                else if (button.Type == 13 || button.Type == 17)
+                else if (button.Type == 13 || button.Type == 18)
                     button.Type = 14;
                 break;
         }
@@ -142,7 +142,7 @@ public class FindingPath
             case 4:
                 button.BackgroundImage = Image.FromFile(pictures.ground);
                 break;
-            case 7:
+            case 8:
                 button.BackgroundImage = Image.FromFile(pictures.hulk);
                 break;
             case 13:
@@ -151,7 +151,7 @@ public class FindingPath
             case 14:
                 button.BackgroundImage = Image.FromFile(pictures.rock);
                 break;
-            case 17:
+            case 18:
                 button.BackgroundImage = Image.FromFile(pictures.hulk);
                 break;
         }
