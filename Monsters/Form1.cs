@@ -25,7 +25,7 @@ namespace Monsters
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
         
         //定义怪数
-        private int totalmonsters = 30;
+        private int totalmonsters = 40;
         //定义心数
         private int totalhearts = 80;
         //定义加速器的数量
@@ -190,7 +190,7 @@ namespace Monsters
            
             if(person.Speed==0)
             {
-                if (persontime == 9)
+                if (persontime == 7)
                 {
                     personmoving = false;
                     persontime = 0;
@@ -202,7 +202,7 @@ namespace Monsters
             }
             if(person.Speed > 0)
             {
-                if (persontime == 4)
+                if (persontime == 3)
                 {
                     personmoving = false;
                     persontime = 0;
@@ -516,7 +516,7 @@ namespace Monsters
         }
         private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt)
         {
-            if ((monstertime == 6 & monstertype == 0) || (hulktime == 17 && monstertype == 1))
+            if ((monstertime == 5 & monstertype == 0) || (hulktime == 13 && monstertype == 1))
             {
                 int[] monstersX = new int[50];
                 int[] monstersY = new int[50];
@@ -577,9 +577,9 @@ namespace Monsters
                     }
 
                 }
-                if (monstertime == 6 && monstertype == 0)
+                if (monstertime == 5 && monstertype == 0)
                     monstertime = -1;
-                else if(hulktime == 17 && monstertype == 1)
+                else if(hulktime == 13 && monstertype == 1)
                     hulktime = -1;
 
             }
