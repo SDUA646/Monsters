@@ -27,7 +27,7 @@ namespace Monsters
         //定义怪数
         private int totalmonsters = 50;
         //定义心数
-        private int totalhearts = 40;
+        private int totalhearts = 80;
         //定义加速器的数量
         private int boosters = 20;
         //定义钥匙的数量
@@ -58,7 +58,7 @@ namespace Monsters
         //
         int speedTime = 0;
         //
-        int totalhulks = 20;
+        int totalhulks = 10;
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
@@ -560,7 +560,7 @@ namespace Monsters
                         bool condition3 = localmonstersX[i] > Math.Max(person.X - 1, 0) && localmonstersX[i] < Math.Min(person.X + 3, row);
                         bool condition4 = localmonstersY[i] > Math.Max(person.Y - 1, 0) && localmonstersY[i] < Math.Min(person.Y + 3, column);
 
-                        if (findingpath.canMove(button[monstersX[i], monstersY[i]]))
+                        if (findingpath.canMove(button[monstersX[i], monstersY[i]]) || button[localmonstersX[i],localmonstersY[i]].Type == 8 || button[localmonstersX[i], localmonstersY[i]].Type == 18)
                         {
                             if ((condition1 && condition2) || (condition3 && condition4))
                             {
@@ -590,6 +590,38 @@ namespace Monsters
             button[row - 2, column - 2].Type = 5;
             map.getMap(ref button);
             Random rand = new Random();
+            for (int i = 0; i < totalhulks; i++)
+            {
+
+                int position_x = rand.Next(row);
+                int position_y = rand.Next(column);
+                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
+                {
+                    button[position_x, position_y].Type = 8;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 18;
+                }
+                else
+                    i = i - 1;
+            }
+            for (int i = 0; i < totalmonsters; i++)
+            {
+
+                int position_x = rand.Next(row);
+                int position_y = rand.Next(column);
+                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
+                {
+                    button[position_x, position_y].Type = 3;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 13;
+                }
+                else
+                    i = i - 1;
+            }
             //布心
             for (int i = 0; i < totalhearts; i++)
             {
@@ -640,40 +672,6 @@ namespace Monsters
                 else
                     i = i - 1;
             }
-            //布雷
-            for (int i = 0; i < totalmonsters; i++)
-            {
-
-                int position_x = rand.Next(row);
-                int position_y = rand.Next(column);
-                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
-                {
-                    button[position_x, position_y].Type = 3;
-                }
-                else if (button[position_x, position_y].Type == 14)
-                {
-                    button[position_x, position_y].Type = 13;
-                }
-                else
-                    i = i - 1;
-            }
-            for (int i = 0; i < totalhulks; i++)
-            {
-
-                int position_x = rand.Next(row);
-                int position_y = rand.Next(column);
-                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
-                {
-                    button[position_x, position_y].Type = 8;
-                }
-                else if (button[position_x, position_y].Type == 14)
-                {
-                    button[position_x, position_y].Type = 18;
-                }
-                else
-                    i = i - 1;
-            }
-
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < column; j++)
