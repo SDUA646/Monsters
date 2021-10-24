@@ -25,9 +25,9 @@ namespace Monsters
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
         
         //定义怪数
-        private int totalmonsters = 15;
+        private int totalmonsters = 50;
         //定义心数
-        private int totalhearts = 400;
+        private int totalhearts = 40;
         //定义加速器的数量
         private int boosters = 20;
         //游戏是否结束
@@ -115,6 +115,7 @@ namespace Monsters
                 }
             }
         }
+        //开始按钮
         private void button1_Click(object sender, EventArgs e)
         {
             timer.Start();
@@ -135,6 +136,7 @@ namespace Monsters
             button[1, 0].Type = 4;
             button[1, 1].Type = 4;
             getView(0, 0);
+            getRandView(row - 2, column - 2);
             button1.Enabled = false;
         }
 
@@ -186,18 +188,7 @@ namespace Monsters
             monsterMoving();
             if (!personmoving)
               {
-                //游戏通关，停止运行
-
-                //if(over == true)
-                //{
-                //    MessageBox.Show("你真牛逼！,游戏通关");
-                //    aTimer.Enabled = false;
-                //    timer.Enabled = false;
-                //    timerM.Enabled = false;
-                //    this.Dispose();
-                //    this.Close();
-
-                //}
+               
                 
                     if (b.MovePerson(b.X, b.Y, person,button))
                     {
@@ -321,37 +312,90 @@ namespace Monsters
                 button[x + 1, y + 1].Type = 4;
             }
         }
+        //随机视野
+        private void getRandView(int x,int y)
+        {
+            getImage(x,y);
+            getImage(x + 1,y);
+            getImage(x,y + 1);
+            getImage(x + 1, y + 1);
+            
+            getImage(x - 1, y - 1);
+            getImage(x - 1, y);
+            getImage(x - 1, y + 1);
+            getImage(x - 1, y + 2);
+                     
+            getImage(x - 2, y);
+            getImage(x -2, y + 1);           
+                     
+            getImage(x, y - 2);
+            getImage(x, y - 1);
+            getImage(x, y + 2);
+            getImage(x, y + 3);            
+            
+            getImage(x + 1, y - 2);
+            getImage(x + 1, y - 1);
+            getImage(x + 1, y + 2);
+            getImage(x + 1, y + 3);
+           
+            getImage(x + 2, y - 1);
+            getImage(x + 2, y );
+            getImage(x + 2, y + 1);
+            getImage(x + 2, y + 2);           
+           
+            getImage(x + 3, y);
+            getImage(x + 3, y + 1);         
+
+        }
 
         //开视野，10/22，新调视野
         private void getView(int x, int y)
         {
             //8格视野
+            getImage(x - 1, y - 2);
             getImage(x - 1, y - 1);
             getImage(x - 1, y);
             getImage(x - 1, y + 1);
             getImage(x - 1, y + 2);
+            getImage(x - 1, y + 3);
 
+            getImage(x - 2, y - 1);
             getImage(x - 2, y);
             getImage(x -2, y + 1);
+            getImage(x - 2, y + 2);
 
+
+            getImage(x - 3, y);
+            getImage(x - 3, y + 1);
+
+            getImage(x, y - 3);
             getImage(x, y - 2);
             getImage(x, y - 1);
             getImage(x, y + 2);
             getImage(x, y + 3);
+            getImage(x, y + 4);
 
-          
+            getImage(x + 1, y - 3);
             getImage(x + 1, y - 2);
             getImage(x + 1, y - 1);
             getImage(x + 1, y + 2);
             getImage(x + 1, y + 3);
+            getImage(x + 1, y + 4);
 
+            getImage(x + 2, y - 2);
             getImage(x + 2, y - 1);
             getImage(x + 2, y );
             getImage(x + 2, y + 1);
             getImage(x + 2, y + 2);
+            getImage(x + 2, y + 3);
 
+            getImage(x + 3, y -1);
             getImage(x + 3, y);
             getImage(x + 3, y + 1);
+            getImage(x + 3, y + 2);
+
+            getImage(x + 4, y);
+            getImage(x + 4, y + 1);
 
 
         }
@@ -534,6 +578,8 @@ namespace Monsters
             {
                
                 aTimer.Stop();
+             
+                timerM.Stop();
 
                 MessageBox.Show("gg");
                
@@ -546,6 +592,8 @@ namespace Monsters
         private void esc_Click(object sender, EventArgs e)
         {
             aTimer.Stop();
+            timer.Stop();
+            timerM.Stop();
             this.Dispose();
             this.Close();
         }
