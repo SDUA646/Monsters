@@ -221,8 +221,9 @@ namespace Monsters
                         over = true;
                         Checkwin();
                     }
-                    personmoving = true;
+                    
                 }
+                personmoving = true;
             }
             
         }

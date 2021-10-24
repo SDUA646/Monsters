@@ -151,7 +151,7 @@ public class FindingPath
     public bool canMove(Buttons button)
     {
         bool condition1 = button.Type < 10;
-        bool condition2 = button.Type > 10 && button.Moveonterrain == 1;
+        bool condition2 = button.Type > 10 && button.Moveonterrain > 0;
         if (condition1 || condition2)
         {
             button.Moveonterrain = 0;

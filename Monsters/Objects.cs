@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 public class Person
 {
@@ -11,14 +12,14 @@ public class Person
         get
         { return life; }
         set
-        { life = value; }
+        { life = value;}
     }
     public int X
     {
         get
         { return x; }
         set
-        { x = value; }
+        { x = value;}
     }
     public int Y
     {
