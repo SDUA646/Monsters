@@ -107,15 +107,19 @@ public class FindingPath
 
         }
     }
-    public int transType(ref Buttons button, Transtype transtype, Pictures pictures)
+    public void transType(ref Buttons button, Transtype transtype, Pictures pictures,int monstertype)//monstertype0为普通怪，1为绿巨人
     {
         switch (transtype)
         {
             case Transtype.groundtomonster:
-                if (button.Type == 4)
+                if (button.Type == 4 && monstertype == 0)
                     button.Type = 3;
-                else if (button.Type == 14)
+                else if (button.Type == 14 && monstertype == 0)
                     button.Type = 13;
+                else if (button.Type == 4 && monstertype == 1)
+                    button.Type = 8;
+                else if (button.Type == 14 && monstertype == 1)
+                    button.Type = 18;
                 break;
             case Transtype.groundtoground:
                 if (button.Type == 4)
@@ -124,9 +128,9 @@ public class FindingPath
                     button.Type = 14;
                 break;
             case Transtype.monstertoground:
-                if (button.Type == 3)
+                if (button.Type == 3 || button.Type == 8)
                     button.Type = 4;
-                else if (button.Type == 13)
+                else if (button.Type == 13 || button.Type == 18)
                     button.Type = 14;
                 break;
         }
@@ -138,14 +142,19 @@ public class FindingPath
             case 4:
                 button.BackgroundImage = Image.FromFile(pictures.ground);
                 break;
+            case 8:
+                button.BackgroundImage = Image.FromFile(pictures.hulk);
+                break;
             case 13:
                 button.BackgroundImage = Image.FromFile(pictures.monsters);
                 break;
             case 14:
                 button.BackgroundImage = Image.FromFile(pictures.rock);
                 break;
+            case 18:
+                button.BackgroundImage = Image.FromFile(pictures.hulk);
+                break;
         }
-        return button.Type;
     }
 
     public bool canMove(Buttons button)

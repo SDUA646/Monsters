@@ -35,4 +35,6 @@ public class Pictures
     public string key = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\key.jpg";
     //石头钥匙
     public string key_1 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\key.jpg";
+    //绿巨人
+    public string hulk = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\hulk.jpg";
 }
