@@ -58,7 +58,7 @@ namespace Monsters
         //
         int speedTime = 0;
         //
-        int totalhulks = 100;
+        int totalhulks = 20;
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
@@ -516,7 +516,7 @@ namespace Monsters
         }
         private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt)
         {
-            if (monstertime == 6 || hulktime == 17)
+            if ((monstertime == 6 & monstertype == 0) || (hulktime == 17 && monstertype == 1))
             {
                 int[] monstersX = new int[50];
                 int[] monstersY = new int[50];
@@ -577,9 +577,9 @@ namespace Monsters
                     }
 
                 }
-                if (monstertime == 6)
+                if (monstertime == 6 && monstertype == 0)
                     monstertime = -1;
-                else if(hulktime == 13)
+                else if(hulktime == 17 && monstertype == 1)
                     hulktime = -1;
 
             }
