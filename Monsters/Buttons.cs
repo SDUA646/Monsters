@@ -20,7 +20,7 @@ public class Buttons : Button
     public Buttons()
     {
         Tag = 0;     ///0表示未翻开，1表示翻开
-        Size = new System.Drawing.Size(20, 20);
+        Size = new System.Drawing.Size(22, 22);
     }
     public int Moveonterrain
     {

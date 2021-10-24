@@ -12,8 +12,8 @@ public class Pictures
     public string shengli = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\烟花.wav";
     //定义爆炸声音
     public string shengyin = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\爆炸声.wav";
-    //定义失败时，雷炸开图片的路径
-    public string monsters = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\flag.bmp";
+    //定义怪1
+    public string monsters = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\怪.png";
     //定义右键单击时，标记旗子图片的路径
     public string hearts = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\hearts.bmp";
     //地雷图片位置
@@ -22,7 +22,7 @@ public class Pictures
     public string person3 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\person3.png";
     public string person4 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\person4.png";
     //空的图片
-    public string ground = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\土地.png";
+    public string ground = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\背景.png";
     //通关图片
     public string victory = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\face.bmp";
     //障碍物
