@@ -25,7 +25,7 @@ namespace Monsters
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
         
         //定义怪数
-        private int totalmonsters = 50;
+        private int totalmonsters = 30;
         //定义心数
         private int totalhearts = 80;
         //定义加速器的数量
@@ -135,7 +135,7 @@ namespace Monsters
                 {
                     button[j, i] = new Buttons();
                 
-                    button[j, i].Location = new Point(3 + i * 20, 6 + j * 20);
+                    button[j, i].Location = new Point(3 + i * 21, 6 + j * 21);
                     button[j, i].X = j;
                     button[j, i].Y = i;
                     button[j, i].Type = 0;
@@ -688,10 +688,15 @@ namespace Monsters
         {
             if (over == true)
             {
-                MessageBox.Show("你真牛逼！,游戏通关");
                 aTimer.Stop();
                 timer.Stop();
                 timerM.Stop();
+
+                double degree = Exploration(out int score);
+                score =score + (int)row * column / 2 + person.life * 10;
+                MessageBox.Show("真是幸运的一天。你的得分是" + score  + "。你的探索度是" + degree + "%。");
+               
+               
                 this.Dispose();
                 this.Close();
                  
@@ -703,19 +708,16 @@ namespace Monsters
         {
             if(person.Life <= 0)
             {
-               
+                
                 aTimer.Stop();
                 timer.Stop();
                 timerM.Stop();
                 //输出分数
-                double degree = Exploration();
-                score = 60 * degree;
-                score = Math.Round(score, 0);
-
+                double degree = Exploration(out int score);
+                
+                
                 MessageBox.Show("你被怪物夺取了所有的心脏！！！");
-                MessageBox.Show("你探索了" + degree * 100 + "%的地图");
-                MessageBox.Show("你的分数是" + score);
-              
+                MessageBox.Show("你探索了" + degree * 100 + "%的地图。" + "你的分数是" + score + "。" );
 
                 this.Dispose();
                
@@ -723,17 +725,18 @@ namespace Monsters
             }
         }
         //返回地图探索度的函数
-        private double Exploration()
+        private double Exploration(out int score)
         {
-            double sumTag=0;
+            int sumTag = 0;
             double sumButton = row * column;
-            double degree=0;
+            double degree = 0;
             for (int i = 0; i < row - 1; i++)
                 for (int j = 0; j < column; j++)
                     if ((int)button[i, j].Tag==1)
                         sumTag++;
             degree = sumTag / sumButton;
             degree = Math.Round(degree, 2);
+            score = sumTag;
             return degree;
         }
         private void esc_Click(object sender, EventArgs e)
