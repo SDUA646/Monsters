@@ -25,7 +25,7 @@ namespace Monsters
         private System.Windows.Forms.Timer timerM = new System.Windows.Forms.Timer();
         
         //定义怪数
-        private int totalmonsters = 30;
+        private int totalmonsters = 40;
         //定义心数
         private int totalhearts = 80;
         //定义加速器的数量
@@ -57,7 +57,7 @@ namespace Monsters
         //
         int speedTime = 0;
         //
-        int totalhulks = 20;
+        int totalhulks = 10;
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
@@ -191,7 +191,7 @@ namespace Monsters
            
             if(person.Speed==0)
             {
-                if (persontime == 9)
+                if (persontime == 7)
                 {
                     personmoving = false;
                     persontime = 0;
@@ -203,7 +203,7 @@ namespace Monsters
             }
             if(person.Speed > 0)
             {
-                if (persontime == 4)
+                if (persontime == 3)
                 {
                     personmoving = false;
                     persontime = 0;
@@ -517,7 +517,7 @@ namespace Monsters
         }
         private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt)
         {
-            if ((monstertime == 6 & monstertype == 0) || (hulktime == 17 && monstertype == 1))
+            if ((monstertime == 5 & monstertype == 0) || (hulktime == 13 && monstertype == 1))
             {
                 int[] monstersX = new int[50];
                 int[] monstersY = new int[50];
@@ -561,7 +561,7 @@ namespace Monsters
                         bool condition3 = localmonstersX[i] > Math.Max(person.X - 1, 0) && localmonstersX[i] < Math.Min(person.X + 3, row);
                         bool condition4 = localmonstersY[i] > Math.Max(person.Y - 1, 0) && localmonstersY[i] < Math.Min(person.Y + 3, column);
 
-                        if (findingpath.canMove(button[monstersX[i], monstersY[i]]))
+                        if (findingpath.canMove(button[monstersX[i], monstersY[i]]) || button[localmonstersX[i],localmonstersY[i]].Type == 8 || button[localmonstersX[i], localmonstersY[i]].Type == 18)
                         {
                             if ((condition1 && condition2) || (condition3 && condition4))
                             {
@@ -578,9 +578,9 @@ namespace Monsters
                     }
 
                 }
-                if (monstertime == 6 && monstertype == 0)
+                if (monstertime == 5 && monstertype == 0)
                     monstertime = -1;
-                else if(hulktime == 17 && monstertype == 1)
+                else if(hulktime == 13 && monstertype == 1)
                     hulktime = -1;
 
             }
@@ -595,6 +595,38 @@ namespace Monsters
 
             map.getMap(ref button);
             Random rand = new Random();
+            for (int i = 0; i < totalhulks; i++)
+            {
+
+                int position_x = rand.Next(row);
+                int position_y = rand.Next(column);
+                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
+                {
+                    button[position_x, position_y].Type = 8;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 18;
+                }
+                else
+                    i = i - 1;
+            }
+            for (int i = 0; i < totalmonsters; i++)
+            {
+
+                int position_x = rand.Next(row);
+                int position_y = rand.Next(column);
+                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
+                {
+                    button[position_x, position_y].Type = 3;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 13;
+                }
+                else
+                    i = i - 1;
+            }
             //布心
             for (int i = 0; i < totalhearts; i++)
             {
@@ -645,40 +677,6 @@ namespace Monsters
                 else
                     i = i - 1;
             }
-            //布雷
-            for (int i = 0; i < totalmonsters; i++)
-            {
-
-                int position_x = rand.Next(row);
-                int position_y = rand.Next(column);
-                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
-                {
-                    button[position_x, position_y].Type = 3;
-                }
-                else if (button[position_x, position_y].Type == 14)
-                {
-                    button[position_x, position_y].Type = 13;
-                }
-                else
-                    i = i - 1;
-            }
-            for (int i = 0; i < totalhulks; i++)
-            {
-
-                int position_x = rand.Next(row);
-                int position_y = rand.Next(column);
-                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
-                {
-                    button[position_x, position_y].Type = 8;
-                }
-                else if (button[position_x, position_y].Type == 14)
-                {
-                    button[position_x, position_y].Type = 18;
-                }
-                else
-                    i = i - 1;
-            }
-
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < column; j++)
