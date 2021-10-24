@@ -12,9 +12,9 @@ public class Buttons : Button
     private Pictures pictures = new Pictures();
     private int moveonterrain = 0;
     //记录该个控件下的object，0为空，1为人
-    //2为心，3为怪，4为地，5为终点，6为加速器
+    //2为心，3为怪，4为地，5为终点，6为加速器，7为绿巨人
     //10为障碍物
-    //14为石头，12为石头心，13为石头怪
+    //14为石头，12为石头心，13为石头怪，17为石头绿巨人
     private int type;
     FindingPath findingpath = new FindingPath();
     public Buttons()
@@ -130,6 +130,10 @@ public class Buttons : Button
                     break;
                 case 6:
                     BackgroundImage = Image.FromFile(pictures.booster);
+                    break;
+                case 7:
+                case 17:
+                    BackgroundImage = Image.FromFile(pictures.hulk);
                     break;
                 case 10:
                     BackgroundImage = Image.FromFile(pictures.block);

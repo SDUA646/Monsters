@@ -41,11 +41,15 @@ namespace Monsters
         //执行人物移动的函数的定时器
         private static System.Timers.Timer aTimer;
         //
-        int monstertime = 0;
+        int monstertime = -1;
+        //
+        int hulktime = -1;
         //
         int persontime = 0;
         //
         int speedTime = 0;
+        //
+        int totalhulks = 100;
 
         //生成个按钮数组
         private Buttons[,] button = new Buttons[row, column];
@@ -185,7 +189,7 @@ namespace Monsters
                 }
             }
 
-            monsterMoving();
+            monstersMoving();
             if (!personmoving)
               {
                
@@ -419,9 +423,17 @@ namespace Monsters
             fail();
         }
 
-        private void monsterMoving()
+        private void monstersMoving()
         {
-            if (monstertime == 6)
+            oneMonsterMoving(3, 13, 0, 1);
+            oneMonsterMoving(7, 17, 1, 3);
+
+            monstertime++;
+            hulktime++;
+        }
+        private void oneMonsterMoving(int type0, int type1, int monstertype, int hurt)
+        {
+            if (monstertime == 6 || hulktime == 13)
             {
                 int[] monstersX = new int[50];
                 int[] monstersY = new int[50];
@@ -433,7 +445,7 @@ namespace Monsters
                 {
                     for (int j = 0; j < column; j++)
                     {
-                        if ((button[i, j].Type == 3 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
+                        if ((button[i, j].Type == type0 && (int)button[i, j].Tag == 1) || (button[i, j].Type == type1 && (int)button[i, j].Tag == 1))
                         {
                             visiblemonsters++;
                             monstersX[visiblemonsters] = i;
@@ -441,11 +453,11 @@ namespace Monsters
                             localmonstersX[visiblemonsters] = i;
                             localmonstersY[visiblemonsters] = j;
                         }
-                        if ((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 3 && (int)button[i, j].Tag == 1))
+                        if ((button[i, j].Type == 4 && (int)button[i, j].Tag == 1) || (button[i, j].Type == type0 && (int)button[i, j].Tag == 1))
                         {
                             terrain[i, j] = 1;
                         }
-                        else if ((button[i, j].Type == 14 && (int)button[i, j].Tag == 1) || (button[i, j].Type == 13 && (int)button[i, j].Tag == 1))
+                        else if ((button[i, j].Type == 14 && (int)button[i, j].Tag == 1) || (button[i, j].Type == type1 && (int)button[i, j].Tag == 1))
                         {
                             terrain[i, j] = 2;
                         }
@@ -467,26 +479,26 @@ namespace Monsters
 
                         if (findingpath.canMove(button[monstersX[i], monstersY[i]]))
                         {
-                            if ((condition1 && condition2)||(condition3 && condition4))
+                            if ((condition1 && condition2) || (condition3 && condition4))
                             {
-                                findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
-                                person.life -= 1;
+                                findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures, monstertype);
+                                person.life -= hurt;
                                 showPersonLife();
                             }
                             else if ((button[monstersX[i], monstersY[i]].Type == 4) || (button[monstersX[i], monstersY[i]].Type == 14))
                             {
-                                findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures);
-                                findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures);
+                                findingpath.transType(ref button[monstersX[i], monstersY[i]], FindingPath.Transtype.groundtomonster, pictures, monstertype);
+                                findingpath.transType(ref button[localmonstersX[i], localmonstersY[i]], FindingPath.Transtype.monstertoground, pictures, monstertype);
                             }
                         }
                     }
 
                 }
-                monstertime = 0;
-            }
-            else
-            {
-                monstertime++;
+                if (monstertime == 6)
+                    monstertime = -1;
+                else if(hulktime == 13)
+                    hulktime = -1;
+
             }
         }
         private void setObjects()
@@ -541,6 +553,22 @@ namespace Monsters
                 else if (button[position_x, position_y].Type == 14)
                 {
                     button[position_x, position_y].Type = 13;
+                }
+                else
+                    i = i - 1;
+            }
+            for (int i = 0; i < totalhulks; i++)
+            {
+
+                int position_x = rand.Next(row);
+                int position_y = rand.Next(column);
+                if (button[position_x, position_y].Type == 0 && position_x + position_y != 0)
+                {
+                    button[position_x, position_y].Type = 7;
+                }
+                else if (button[position_x, position_y].Type == 14)
+                {
+                    button[position_x, position_y].Type = 17;
                 }
                 else
                     i = i - 1;

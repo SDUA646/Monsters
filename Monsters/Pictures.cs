@@ -31,4 +31,6 @@ public class Pictures
     public string rock = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\rock.jpg";
     //加速器
     public string booster= System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\booster.jpg";
+    //绿巨人
+    public string hulk = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\hulk.jpg";
 }
