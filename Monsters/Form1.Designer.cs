@@ -35,7 +35,10 @@ namespace Monsters
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.esc = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -72,11 +75,10 @@ namespace Monsters
             this.label1.TabIndex = 9;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-           // this.label1.TextChanged += new System.EventHandler(this.label1_TextChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1488, 306);
+            this.button1.Location = new System.Drawing.Point(1488, 440);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 29);
             this.button1.TabIndex = 0;
@@ -86,7 +88,7 @@ namespace Monsters
             // 
             // esc
             // 
-            this.esc.Location = new System.Drawing.Point(1488, 412);
+            this.esc.Location = new System.Drawing.Point(1488, 563);
             this.esc.Name = "esc";
             this.esc.Size = new System.Drawing.Size(94, 29);
             this.esc.TabIndex = 11;
@@ -94,11 +96,32 @@ namespace Monsters
             this.esc.UseVisualStyleBackColor = true;
             this.esc.Click += new System.EventHandler(this.esc_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(1498, 365);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(69, 27);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "label2";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(1498, 267);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(80, 80);
+            this.pictureBox2.TabIndex = 13;
+            this.pictureBox2.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1606, 999);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.esc);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
@@ -109,7 +132,9 @@ namespace Monsters
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -120,6 +145,8 @@ namespace Monsters
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button esc;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        public System.Windows.Forms.Label label2;
     }
 }
 

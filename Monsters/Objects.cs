@@ -7,6 +7,7 @@ public class Person
     private int x;
     private int y;
     private int speed=0;
+    private int haveKey = 0;
     public int Life
     {
         get
@@ -34,6 +35,11 @@ public class Person
         { return speed; }
         set
         { speed = value; }
+    }
+    public int HaveKey
+    {
+        get { return haveKey; }
+        set { haveKey = value; }
     }
 
 

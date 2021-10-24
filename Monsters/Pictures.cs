@@ -31,4 +31,8 @@ public class Pictures
     public string rock = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\rock.jpg";
     //加速器
     public string booster= System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\booster.jpg";
+    //钥匙
+    public string key = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\key.jpg";
+    //石头钥匙
+    public string key_1 = System.Environment.CurrentDirectory + "\\..\\..\\..\\image\\key.jpg";
 }
