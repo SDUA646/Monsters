@@ -61,7 +61,7 @@ namespace Monsters
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "地宫逃生！注意四周";
             this.ResumeLayout(false);
 
         }

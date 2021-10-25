@@ -101,13 +101,13 @@ namespace Monsters
         
         private void timer_Tick(object sender, EventArgs e)
         {
-            //展示新的人物形象
-            button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1);
-            button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
-            button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
-            button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person3);
-           //输出时钟计时，且每隔一段时间开一个随即视野
             millisecond++;
+
+            showPerson();
+           
+          
+           //输出时钟计时，且每隔一段时间开一个随即视野
+            
             if (millisecond % 65 == 0)
             {
                 second++;
@@ -243,17 +243,10 @@ namespace Monsters
                     //开视野，探索地图
                     getView(person.X, person.Y);
 
-                    //展示新的人物形象
-                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1);
-                    button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person4);
-                    button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
-                    button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person3);
-
-
                     //通关判断
 
 
-                    if (button[person.X, person.Y].Type == 5 && person.HaveKey>0)
+                    if (button[person.X, person.Y].Type == 20 && person.HaveKey > 0)
                     {                    
                         over = true;
                         Checkwin();
@@ -588,10 +581,10 @@ namespace Monsters
         private void setObjects()
         {
 
-            button[row - 2, column - 2].Type = 5;
-            button[row - 1, column - 2].Type = 5;
-            button[row - 2, column - 1].Type = 5;
-            button[row - 1, column - 1].Type = 5;
+            button[row - 2, column - 2].Type = 20;
+            button[row - 1, column - 2].Type = 22;
+            button[row - 2, column - 1].Type = 21;
+            button[row - 1, column - 1].Type = 23;
 
             map.getMap(ref button);
             Random rand = new Random();
@@ -720,6 +713,8 @@ namespace Monsters
                 aTimer.Stop();
                 timer.Stop();
                 timerM.Stop();
+                esc.Enabled = false;
+
                 //输出分数
                 double degree = Exploration(out int score);
                 button4.Enabled = false;
@@ -768,7 +763,7 @@ namespace Monsters
         private void button2_Click(object sender, EventArgs e)
         {
             
-            if(aTimer.Interval > 80)
+            if(aTimer.Interval > 70)
             {
                 string speed = "速度：";
                 aTimer.Interval -= 10;
@@ -780,7 +775,7 @@ namespace Monsters
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (aTimer.Interval < 120)
+            if (aTimer.Interval < 130)
             {
                 string speed = "速度：";
                 aTimer.Interval += 10;
@@ -803,5 +798,86 @@ namespace Monsters
             aTimer.Start();
             timerM.Start();
         }
+
+        //展示人物形象
+        private void showPerson()
+        {
+            //展示新的人物形象
+            if(person.condition % 2 == 0)
+            {
+
+                if (button[person.X, person.Y].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1);
+                }
+                else if (button[person.X, person.Y].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person01);
+                }
+           
+                if (button[person.X + 1, person.Y].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person3);
+                }
+                else if (button[person.X + 1, person.Y].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person03);
+                }
+                if (button[person.X, person.Y + 1].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2);
+                }
+                else if (button[person.X, person.Y + 1].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person02);
+                }
+                if (button[person.X + 1, person.Y + 1].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person4);
+                }
+                else if (button[person.X + 1, person.Y + 1].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person04);
+                }
+            }
+            else
+            {
+                if (button[person.X, person.Y].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1g);
+                }
+                else if (button[person.X, person.Y].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X, person.Y].BackgroundImage = Image.FromFile(pictures.person1w);
+                }
+
+                if (button[person.X + 1, person.Y].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person3g);
+                }
+                else if (button[person.X + 1, person.Y].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X + 1, person.Y].BackgroundImage = Image.FromFile(pictures.person3w);
+                }
+                if (button[person.X, person.Y + 1].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2g);
+                }
+                else if (button[person.X, person.Y + 1].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person2w);
+                }
+                if (button[person.X + 1, person.Y + 1].Type == 4 || button[person.X, person.Y].Type == 3 || button[person.X, person.Y].Type == 8)
+                {
+                    button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person4g);
+                }
+                else if (button[person.X + 1, person.Y + 1].Type == 14 || button[person.X, person.Y].Type == 13 || button[person.X, person.Y].Type == 18)
+                {
+                    button[person.X + 1, person.Y + 1].BackgroundImage = Image.FromFile(pictures.person4w);
+                }
+            }
+        
+        }
     }
+
 }

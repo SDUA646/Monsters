@@ -69,6 +69,7 @@ public class Buttons : Button
                     {
                         person.Move(person.X + 1, person.Y);
                         success = true;
+                        person.condition++;
                     }
                 }
             }
@@ -80,6 +81,7 @@ public class Buttons : Button
                     {
                         person.Move(person.X, person.Y + 1);
                         success = true;
+                        person.condition++;
                     }
 
                 }
@@ -92,6 +94,7 @@ public class Buttons : Button
                     {
                         person.Move(person.X - 1, person.Y);
                         success = true;
+                        person.condition++;
                     }
                 }
             }
@@ -103,6 +106,7 @@ public class Buttons : Button
                     {
                         person.Move(person.X, person.Y - 1);
                         success = true;
+                        person.condition++;
                     }
                 }
             }
@@ -118,8 +122,10 @@ public class Buttons : Button
             switch(type)
             {
                 case 2:
+                    BackgroundImage = Image.FromFile(pictures.hearts1);
+                    break;
                 case 12:
-                    BackgroundImage = Image.FromFile(pictures.hearts);
+                    BackgroundImage = Image.FromFile(pictures.hearts01);
                     break;
                 case 13:
                     BackgroundImage = Image.FromFile(pictures.monsters01);
@@ -130,8 +136,17 @@ public class Buttons : Button
                 case 4:
                     BackgroundImage = Image.FromFile(pictures.ground);
                     break;
-                case 5:
-                    BackgroundImage = Image.FromFile(pictures.victory);
+                case 20:
+                    BackgroundImage = Image.FromFile(pictures.victory1);
+                    break;
+                case 21:
+                    BackgroundImage = Image.FromFile(pictures.victory2);
+                    break;
+                case 22:
+                    BackgroundImage = Image.FromFile(pictures.victory3);
+                    break;
+                case 23:
+                    BackgroundImage = Image.FromFile(pictures.victory4);
                     break;
                 case 6:
                     BackgroundImage = Image.FromFile(pictures.booster);
@@ -139,7 +154,6 @@ public class Buttons : Button
                 case 7:
                     BackgroundImage = Image.FromFile(pictures.key);
                     break;
-
                 case 8:
                     BackgroundImage = Image.FromFile(pictures.monsters2);
                     break;

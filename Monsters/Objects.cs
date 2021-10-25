@@ -4,9 +4,11 @@ using System.Diagnostics;
 public class Person
 {
     public int life = 5;
+    //记录人物当前状态，偶数静止，奇数跑动
+    public int condition = 0;
     private int x;
     private int y;
-    private int speed=0;
+    private int speed = 0;
     private int haveKey = 0;
     public int Life
     {
