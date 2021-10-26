@@ -10,6 +10,7 @@ public class Person
     private int y;
     private int speed = 0;
     private int haveKey = 0;
+    public bool gender;
     public int Life
     {
         get
