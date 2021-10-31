@@ -14,21 +14,28 @@ public class Map
 		{
 			case 0:
 				//石头
-				for (int i = 6; i < 19; i++)
+				for (int i = 6; i < 13; i++)
 				{
-					for (int j = 10; j < 24; j++)
+					for (int j = 24; j < 48; j++)
 					{
 						buttons[i, j].Type = 14;
 					}
 				}
 				for (int i = 6; i < 26; i++)
 				{
-					for (int j = 24; j < 37; j++)
+					for (int j = 24; j < 36; j++)
 					{
 						buttons[i, j].Type = 14;
 					}
 				}
-				for (int i = 19; i < 33; i++)
+				for (int i = 26; i < 40; i++)
+				{
+					for (int j = 36; j < 48; j++)
+					{
+						buttons[i, j].Type = 14;
+					}
+				}
+				for (int i = 13; i < 33; i++)
 				{
 					for (int j = 61; j < 70; j++)
 					{
@@ -80,23 +87,37 @@ public class Map
 				break;
 			case 1:
 				//石头
-				for (int i = 6; i < 13; i++)
+				for (int i = 6; i < 26; i++)
 				{
-					for (int j = 10; j < 24; j++)
+					for (int j = 0; j < 10; j++)
 					{
 						buttons[i, j].Type = 14;
 					}
 				}
-				for (int i = 6; i < 19; i++)
+				for (int i = 6; i < 13; i++)
 				{
-					for (int j = 24; j < 36; j++)
+					for (int j = 24; j < 61; j++)
 					{
 						buttons[i, j].Type = 14;
 					}
 				}
 				for (int i = 19; i < 26; i++)
 				{
-					for (int j = 36; j < 48; j++)
+					for (int j = 10; j < 48; j++)
+					{
+						buttons[i, j].Type = 14;
+					}
+				}
+				for (int i = 26; i < 33; i++)
+				{
+					for (int j = 36; j < 61; j++)
+					{
+						buttons[i, j].Type = 14;
+					}
+				}
+				for (int i = 19; i < 33; i++)
+				{
+					for (int j = 48; j < 61; j++)
 					{
 						buttons[i, j].Type = 14;
 					}
